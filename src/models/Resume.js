@@ -7,13 +7,12 @@ const resumeSchema = new mongoose.Schema(
       ref: "User",
       required: true,
     },
-    _id: ObjectId,
+
     template: { type: ObjectId, ref: "Template" },
-  
 
     personal: {
       fullName: { type: String, required: true },
-      title: { type: String }, 
+      title: { type: String },
       email: { type: String, required: true },
       phone: { type: String },
       address: { type: String },
@@ -30,11 +29,9 @@ const resumeSchema = new mongoose.Schema(
         fieldOfStudy: String,
         startDate: Date,
         endDate: Date,
-        grade: String,
         description: String,
       },
     ],
-
 
     experience: [
       {
@@ -48,8 +45,8 @@ const resumeSchema = new mongoose.Schema(
       },
     ],
 
-    skills: [String], 
-  
+    skills: [String],
+
     projects: [
       {
         name: String,
@@ -70,11 +67,10 @@ const resumeSchema = new mongoose.Schema(
     languages: [
       {
         name: String,
-        level: String, 
+        level: String,
       },
     ],
 
-    
     templateId: { type: String, default: "modern" },
     lastEdited: { type: Date, default: Date.now },
   },
