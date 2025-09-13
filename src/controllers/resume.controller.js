@@ -23,7 +23,16 @@ export async function getResumes(req, res){
     
 }
 
-export async function getResume(){
+export async function getResume(req, res){
+    const userId = req.user.id;
+    const paramId = req.params.id;
+    try {
+        const resume = await Resume.findOne({_id:paramId, userId});
+        if(!resume || resume.length === 0) res.status(404).json(`Resume not found for this user`)
+        res.status(200).json({success: true, resume,})
+    } catch (error) {
+        res.status(500).json({error: `Error fetching resume ${error}`, success: false})
+    }
 
 }
 
