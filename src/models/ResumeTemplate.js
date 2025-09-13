@@ -7,6 +7,7 @@ const resumeSchema = new mongoose.Schema(
     previewUrl: String,
     filePath: String,
     category: String,
+    isPremium: {type: Boolean, default: false}
   },
   { timestamps: true }
 );

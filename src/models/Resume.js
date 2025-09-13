@@ -8,7 +8,7 @@ const resumeSchema = new mongoose.Schema(
       required: true,
     },
 
-    template: { type: ObjectId, ref: "Template" },
+    template: { type: mongoose.Schema.Types.ObjectId, ref: "Template" },
 
     personal: {
       fullName: { type: String, required: true },

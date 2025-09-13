@@ -10,6 +10,7 @@ config();
 const PORT = process.env.PORT;
 
 import authRouter from "./src/routes/Auth.js";
+import resumeRouter from "./src/routes/Resume.js";
 
 const app = express();
 await connectDB();
@@ -30,6 +31,7 @@ app.get("/", (req, res) => {
         `);
 });
 app.use("/api/auth", authRouter);
+app.use('/api/resume', resumeRouter)
 app.listen(PORT, () => {
   console.log(`Server connected to ${process.env.BASE_URL}/${PORT}`);
 });
