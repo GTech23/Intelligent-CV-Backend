@@ -4,7 +4,7 @@ import { createResume, deleteResume, getResume, getResumes, updateResume } from 
 const resumeRouter = Router();
 
 resumeRouter.post("/", authorizeAuth, createResume);
-resumeRouter.get("/:id", authorizeAuth, getResumes);
+resumeRouter.get("/", authorizeAuth, getResumes);
 resumeRouter.get("/:id", authorizeAuth, getResume)
 resumeRouter.put('/:id', authorizeAuth,  updateResume);
 resumeRouter.delete('/:id', authorizeAuth, deleteResume);
