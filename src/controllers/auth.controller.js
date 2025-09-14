@@ -31,15 +31,18 @@ export async function login(req, res) {
         expiresIn: "2h",
       }
     );
-    
+
     res.status(200).json({ success: true, message: `Login successful`, token });
   } catch (error) {
     console.error(error.message);
-    res.status(500).json({success: false, error: `Something went wrong - ${error.message}` });
+    res.status(500).json({
+      success: false,
+      error: `Something went wrong - ${error.message}`,
+    });
   }
 }
 
-export async function getAuthProfile(req, res){
-   const user = req.user;
-   res.status(200).json({message: user})
+export async function getAuthProfile(req, res) {
+  const user = req.user;
+  res.status(200).json({ message: user });
 }
