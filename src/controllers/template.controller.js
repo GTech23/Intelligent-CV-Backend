@@ -15,3 +15,19 @@ export async function getTemplates(req, res) {
 
     res.status(200).json({success: true, templates})
 }
+
+export async function deleteTemplate(req, res){
+    const templateId = req.params.id;
+    
+    try {
+        await ResumeTemplate.findByIdAndDelete({_id: templateId});
+        return res.status(200).json({success: true, message: `Template deleted`})
+        
+    } catch (error) {
+        if(error.name === 'CastError'){
+            return res.status(400).json({success: false, message: `Template ID not Found`})
+        } else{
+             return res.status(500).json({success: false, message: `Internal Server Error. ${error.message}`})
+        }
+    }
+}
