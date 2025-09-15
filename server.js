@@ -5,15 +5,24 @@ import helmet from "helmet";
 import cookieParser from "cookie-parser";
 import connectDB from "./src/config/db.js";
 import { logger } from "./src/middlewares/logger.js";
+import pkg from 'hbs';
+import path from 'path';
+import url from 'url';
 
 config();
 const PORT = process.env.PORT;
+const {handlebars} = pkg;
 
 import authRouter from "./src/routes/Auth.js";
 import resumeRouter from "./src/routes/Resume.js";
+import templateRouter from "./src/routes/Templates.js";
 
 const app = express();
 await connectDB();
+
+
+const __filename = url.fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // global middlewares
 app.use(helmet());
@@ -21,6 +30,9 @@ app.use(cors());
 app.use(cookieParser());
 app.use(express.json());
 app.use(logger);
+
+app.set('view engine', 'hbs');
+app.set('views', path.join(__dirname, "src", 'views'))
 
 // routes
 app.get("/", (req, res) => {
@@ -31,7 +43,13 @@ app.get("/", (req, res) => {
         `);
 });
 app.use("/api/auth", authRouter);
-app.use('/api/resume', resumeRouter)
+app.use('/api/resume', resumeRouter);
+app.use('/api/template', templateRouter);
+
+app.get('/resume',(req, res)=> {
+  res.render('modern-blue', {title: 'Hello'})
+})
+
 app.listen(PORT, () => {
   console.log(`Server connected to ${process.env.BASE_URL}/${PORT}`);
 });

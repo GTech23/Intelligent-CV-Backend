@@ -1,0 +1,1 @@
+import ResumeTemplate from "../models/ResumeTemplate";
