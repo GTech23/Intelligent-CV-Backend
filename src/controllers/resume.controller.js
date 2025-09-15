@@ -81,3 +81,12 @@ export async function deleteResume(req, res) {
       .json({ error: `Error deleting resume ${err}`, success: false });
   }
 }
+
+export async function renderResume(req, res){
+  const templateId = req.params.id;
+  try {
+    const resume = Resume.findOne()
+  } catch (error) {
+    
+  }
+}
