@@ -8,7 +8,11 @@ const resumeSchema = new mongoose.Schema(
       required: true,
     },
 
-    template: { type: mongoose.Schema.Types.ObjectId, ref: "Template" },
+    templateId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Templates",
+      required: true,
+    },
 
     personal: {
       fullName: { type: String, required: true },
@@ -70,9 +74,6 @@ const resumeSchema = new mongoose.Schema(
         level: String,
       },
     ],
-
-    templateId: { type: String, default: "modern" },
-    lastEdited: { type: Date, default: Date.now },
   },
   { timestamps: true }
 );

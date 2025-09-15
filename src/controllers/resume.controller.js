@@ -1,11 +1,17 @@
 import Resume from "../models/Resume.js";
+import puppeteer from "puppeteer";
+
 import mongoose from "mongoose";
 export async function createResume(req, res) {
   const body = req.body;
   const id = req.user.id;
-  const newResume = new Resume({ ...body, userId: id });
+  const newResume = new Resume({
+    ...body,
+    templateId: "68c8580c0c771e6b72642d09",
+    userId: id,
+  });
   await newResume.save();
-  res.status(210).json({ message: `Resume created`, success: true });
+  res.status(201).json({ message: `Resume created`, success: true });
 }
 
 export async function getResumes(req, res) {
@@ -82,11 +88,75 @@ export async function deleteResume(req, res) {
   }
 }
 
-export async function renderResume(req, res){
+export async function renderResume(req, res) {
   const templateId = req.params.id;
+
   try {
-    const resume = Resume.findOne()
+    const resume = await Resume.findOne({
+      _id: templateId,
+      userId: req.user.id,
+    }).populate("templateId");
+
+    if (!resume)
+      return res
+        .status(404)
+        .json({ message: `Resume not found`, success: false });
+    console.log(resume.templateId.fileName);
+    return res.render(resume.templateId.filePath, {
+      resume: resume.toObject(),
+    });
   } catch (error) {
-    
+    res.status(500).json({
+      error: `Error fetching resume ${error.name}`,
+      success: false,
+    });
+  }
+}
+
+export async function downloadResume(req, res) {
+  const templateId = req.params.id;
+
+  try {
+    const resume = await Resume.findOne({
+      _id: templateId,
+      userId: req.user.id,
+    }).populate("templateId");
+    if (!resume) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Resume not found" });
+    }
+
+    // render the HTML using handlebars
+    res.render(
+      resume.templateId.filePath,
+      { resume: resume.toObject() },
+      async (err, html) => {
+        if (err) throw err;
+
+        const browser = await puppeteer.launch();
+        const page = await browser.newPage();
+
+        await page.setContent(html, { waitUntil: "networkidle0" });
+
+        const pdfBuffer = await page.pdf({
+          format: "A4",
+          printBackground: true,
+        });
+
+        await browser.close();
+
+        res.set({
+          "Content-Type": "application/pdf",
+          "Content-Disposition": `attachment; filename="resume.pdf"`,
+          "Content-Length": pdfBuffer.length,
+        });
+
+        res.send(pdfBuffer);
+      }
+    );
+  } catch (error) {
+    console.error("Error generating PDF:", error);
+    res.status(500).json({ error: "Failed to download resume" });
   }
 }

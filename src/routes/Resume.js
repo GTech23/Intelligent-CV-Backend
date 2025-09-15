@@ -7,6 +7,7 @@ import {
   getResumes,
   renderResume,
   updateResume,
+  downloadResume,
 } from "../controllers/resume.controller.js";
 const resumeRouter = Router();
 
@@ -18,6 +19,7 @@ resumeRouter.get("/:id", authorizeAuth, getResume);
 resumeRouter.put("/:id", authorizeAuth, updateResume);
 resumeRouter.delete("/:id", authorizeAuth, deleteResume);
 
-resumeRouter.get('/:id/view', authorizeAuth, renderResume);
+resumeRouter.get("/:id/view", authorizeAuth, renderResume);
+resumeRouter.get("/:id/download", authorizeAuth, downloadResume);
 
 export default resumeRouter;
