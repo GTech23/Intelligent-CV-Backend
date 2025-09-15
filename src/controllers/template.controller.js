@@ -20,8 +20,12 @@ export async function deleteTemplate(req, res){
     const templateId = req.params.id;
     
     try {
-        await ResumeTemplate.findByIdAndDelete({_id: templateId});
-        return res.status(200).json({success: true, message: `Template deleted`})
+        const deleteTemplate = await ResumeTemplate.findByIdAndDelete({_id: templateId});
+
+        if(!deleteTemplate){
+            return res.status(404).json({success: false, message: `Template not found`})
+        }
+        return res.status(200)
         
     } catch (error) {
         if(error.name === 'CastError'){
