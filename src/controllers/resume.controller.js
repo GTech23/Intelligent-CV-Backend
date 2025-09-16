@@ -1,7 +1,6 @@
 import Resume from "../models/Resume.js";
 import puppeteer from "puppeteer";
 
-import mongoose from "mongoose";
 export async function createResume(req, res) {
   const body = req.body;
   const id = req.user.id;
@@ -113,6 +112,7 @@ export async function renderResume(req, res) {
   }
 }
 
+
 export async function downloadResume(req, res) {
   const templateId = req.params.id;
 
@@ -121,42 +121,58 @@ export async function downloadResume(req, res) {
       _id: templateId,
       userId: req.user.id,
     }).populate("templateId");
+
     if (!resume) {
       return res
         .status(404)
         .json({ success: false, message: "Resume not found" });
     }
 
-    // render the HTML using handlebars
+    // Render the HTML using handlebars
     res.render(
       resume.templateId.filePath,
       { resume: resume.toObject() },
       async (err, html) => {
-        if (err) throw err;
+        if (err) {
+          console.error("Handlebars render error:", err);
+          return res
+            .status(500)
+            .json({ success: false, message: "Template render failed" });
+        }
 
-        const browser = await puppeteer.launch();
-        const page = await browser.newPage();
+        try {
+          const browser = await puppeteer.launch({
+            args: ["--no-sandbox", "--disable-setuid-sandbox"],
+            headless: true,
+          });
+          const page = await browser.newPage();
 
-        await page.setContent(html, { waitUntil: "networkidle0" });
+          await page.setContent(html, { waitUntil: "networkidle0" });
 
-        const pdfBuffer = await page.pdf({
-          format: "A4",
-          printBackground: true,
-        });
+          const pdfBuffer = await page.pdf({
+            format: "A4",
+            printBackground: true,
+          });
 
-        await browser.close();
+          await browser.close();
 
-        res.set({
-          "Content-Type": "application/pdf",
-          "Content-Disposition": `attachment; filename="resume.pdf"`,
-          "Content-Length": pdfBuffer.length,
-        });
-
-        res.send(pdfBuffer);
+          res.set({
+            "Content-Type": "application/pdf",
+            "Content-Disposition": `attachment; filename="resume.pdf"`,
+            "Content-Length": pdfBuffer.length,
+          });
+          res.send(pdfBuffer);
+        } catch (pdfError) {
+          console.error("PDF generation error:", pdfError);
+          res.status(500).json({ success: false, message: "PDF generation failed" });
+        }
       }
     );
   } catch (error) {
     console.error("Error generating PDF:", error);
+    if(error.name === 'CastError'){
+      return res.status(404).json({error: `Resume not found`})
+    }
     res.status(500).json({ error: "Failed to download resume" });
   }
 }
