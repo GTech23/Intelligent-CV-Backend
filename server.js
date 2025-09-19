@@ -47,9 +47,10 @@ app.use("/api/auth", authRouter);
 app.use("/api/resume", resumeRouter);
 app.use("/api/template", templateRouter);
 
-app.get("/resume", (req, res) => {
-  res.render("modern-blue", { title: "Hello" });
-});
+app.use((err, req, res, next) => {
+  res.status(500).json({error: err.message});
+  next(err)
+})
 
 app.listen(PORT, () => {
   console.log(`Server connected to ${process.env.BASE_URL}:${PORT}`);

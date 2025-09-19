@@ -1,9 +1,22 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import User from "../models/User.js";
+import Joi from 'joi';
+import userSchema from "../validation/user-validator.js";
 
 export async function register(req, res) {
-  const { username, email, password } = req.body;
+  const {error, value} = userSchema.validate(req.body, {abortEarly: false});
+
+  if (error) {
+      return res.status(400).json({
+        success: false,
+        message: "Validation failed",
+        details: error.details.map(d => d.message),
+      });
+    }
+
+    const {username, email, password} = value;
+
   try {
     const hash = await bcrypt.hash(password, 10);
     const newUser = new User({ username, email, password: hash });
@@ -13,6 +26,13 @@ export async function register(req, res) {
     res.status(201).json({ message: `User created successfully` });
   } catch (err) {
     console.error(err.message);
+    if(err.code === 11000){
+      const field = Object.keys(err.keyValue)[0];
+      return res.status(400).json({
+        success: false,
+        message: `${field} already exist`
+      })
+    }
     res.status(500).json({ error: `Something went wrong - ${err.message}` });
   }
 }

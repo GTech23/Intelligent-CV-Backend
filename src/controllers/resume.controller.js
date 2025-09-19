@@ -100,7 +100,6 @@ export async function renderResume(req, res) {
       return res
         .status(404)
         .json({ message: `Resume not found`, success: false });
-    console.log(resume.templateId.fileName);
     return res.render(resume.templateId.filePath, {
       resume: resume.toObject(),
     });
@@ -128,7 +127,7 @@ export async function downloadResume(req, res) {
         .json({ success: false, message: "Resume not found" });
     }
 
-    // Render the HTML using handlebars
+
     res.render(
       resume.templateId.filePath,
       { resume: resume.toObject() },
