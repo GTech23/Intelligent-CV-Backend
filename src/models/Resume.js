@@ -60,14 +60,7 @@ const resumeSchema = new mongoose.Schema(
 
     skills: [String],
 
-    certifications: [
-      {
-        name: String,
-        issuer: String,
-        date: Date,
-        description: String,
-      },
-    ],
+    certifications: [String],
 
     languages: [
       {
