@@ -15,14 +15,19 @@ const resumeSchema = new mongoose.Schema(
     },
 
     personal: {
-      fullName: { type: String, required: true },
+      photoUrl: { type: String },
+      firstName: { type: String, required: true },
+      lastName: { type: String, required: true },
       title: { type: String },
       email: { type: String, required: true },
       phone: { type: String },
       address: { type: String },
+      country: { type: String },
+      city: { type: String },
+      state: { type: String },
+      postalCode: { type: String },
       linkedin: { type: String },
       website: { type: String },
-      profileImage: { type: String },
       summary: { type: String },
     },
 
@@ -31,9 +36,10 @@ const resumeSchema = new mongoose.Schema(
         school: String,
         degree: String,
         fieldOfStudy: String,
-        startDate: Date,
-        endDate: Date,
-        description: String,
+        graduationMonth: String,
+        graduationYear: String,
+        removeGraudationDate: Boolean,
+        location: String,
       },
     ],
 
@@ -41,23 +47,18 @@ const resumeSchema = new mongoose.Schema(
       {
         company: String,
         position: String,
-        startDate: Date,
-        endDate: Date,
-        location: String,
-        description: String,
-        highlights: [String],
+        startMonth: String,
+        endMonth: String,
+        country: String,
+        province: String,
+        city: String,
+        endYear: String,
+        isCurrentlyWorking: Boolean,
+        responsibilities: [String],
       },
     ],
 
     skills: [String],
-
-    projects: [
-      {
-        name: String,
-        link: String,
-        description: String,
-      },
-    ],
 
     certifications: [
       {
@@ -72,6 +73,18 @@ const resumeSchema = new mongoose.Schema(
       {
         name: String,
         level: String,
+      },
+    ],
+
+    reference: [
+      {
+        firstName: String,
+        lastName: String,
+        company: String,
+        jobTitle: String,
+        phone: String,
+        email: String,
+        relationshipStatus: String,
       },
     ],
   },
