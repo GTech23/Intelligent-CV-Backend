@@ -27,6 +27,13 @@ const __dirname = path.dirname(__filename);
 
 // global middlewares
 app.use(helmet());
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header(
+    "Access-Control-ALlow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
+});
 app.use(
   cors({
     origin: "http://localhost:5173",
