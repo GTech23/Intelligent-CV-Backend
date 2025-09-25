@@ -27,7 +27,14 @@ const __dirname = path.dirname(__filename);
 
 // global middlewares
 app.use(helmet());
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://http://localhost:5173",
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
+    allowedHeaders: ["Content-Type", "Authorization"],
+  })
+);
 app.use(cookieParser());
 app.use(express.json());
 app.use(logger);
@@ -48,9 +55,9 @@ app.use("/api/resume", resumeRouter);
 app.use("/api/template", templateRouter);
 
 app.use((err, req, res, next) => {
-  res.status(500).json({error: err.message});
-  next(err)
-})
+  res.status(500).json({ error: err.message });
+  next(err);
+});
 
 app.listen(PORT, () => {
   console.log(`Server connected to ${process.env.BASE_URL}:${PORT}`);
