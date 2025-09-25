@@ -29,7 +29,7 @@ const __dirname = path.dirname(__filename);
 app.use(helmet());
 app.use(
   cors({
-    origin: "http://http://localhost:5173",
+    origin: "http://localhost:5173",
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
     allowedHeaders: ["Content-Type", "Authorization"],
