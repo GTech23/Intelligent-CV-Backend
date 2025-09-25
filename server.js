@@ -33,6 +33,7 @@ app.use((req, res, next) => {
     "Access-Control-ALlow-Headers",
     "Origin, X-Requested-With, Content-Type, Accept"
   );
+  next();
 });
 app.use(
   cors({
