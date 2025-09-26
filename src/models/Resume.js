@@ -69,7 +69,7 @@ const resumeSchema = new mongoose.Schema(
       },
     ],
 
-    reference: [
+    references: [
       {
         firstName: String,
         lastName: String,

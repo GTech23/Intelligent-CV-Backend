@@ -111,7 +111,6 @@ export async function renderResume(req, res) {
   }
 }
 
-
 export async function downloadResume(req, res) {
   const templateId = req.params.id;
 
@@ -127,9 +126,8 @@ export async function downloadResume(req, res) {
         .json({ success: false, message: "Resume not found" });
     }
 
-
     res.render(
-      resume.templateId.filePath,
+      "modern-blue.hbs",
       { resume: resume.toObject() },
       async (err, html) => {
         if (err) {
@@ -163,14 +161,16 @@ export async function downloadResume(req, res) {
           res.send(pdfBuffer);
         } catch (pdfError) {
           console.error("PDF generation error:", pdfError);
-          res.status(500).json({ success: false, message: "PDF generation failed" });
+          res
+            .status(500)
+            .json({ success: false, message: "PDF generation failed" });
         }
       }
     );
   } catch (error) {
     console.error("Error generating PDF:", error);
-    if(error.name === 'CastError'){
-      return res.status(404).json({error: `Resume not found`})
+    if (error.name === "CastError") {
+      return res.status(404).json({ error: `Resume not found` });
     }
     res.status(500).json({ error: "Failed to download resume" });
   }
