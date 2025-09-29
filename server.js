@@ -38,7 +38,7 @@ app.use((req, res, next) => {
 app.use(cors());
 app.use(cookieParser());
 app.use(express.json());
-app.use(logger);
+// app.use(logger);
 
 app.engine("hbs", hbs.engine);
 app.set("view engine", "hbs");

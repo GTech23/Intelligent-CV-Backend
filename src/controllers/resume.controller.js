@@ -9,6 +9,7 @@ export async function createResume(req, res) {
     templateId: "68c8580c0c771e6b72642d09",
     userId: id,
   });
+
   await newResume.save();
   res.status(201).json({ message: `Resume created`, success: true });
 }
@@ -127,7 +128,7 @@ export async function downloadResume(req, res) {
     }
 
     res.render(
-      "modern-blue.hbs",
+      resume.templateId.filePath,
       { resume: resume.toObject() },
       async (err, html) => {
         if (err) {
@@ -137,8 +138,9 @@ export async function downloadResume(req, res) {
             .json({ success: false, message: "Template render failed" });
         }
 
+        let browser;
         try {
-          const browser = await puppeteer.launch({
+          browser = await puppeteer.launch({
             args: ["--no-sandbox", "--disable-setuid-sandbox"],
             headless: true,
           });
@@ -151,19 +153,19 @@ export async function downloadResume(req, res) {
             printBackground: true,
           });
 
-          await browser.close();
-
+          // Option 1: Direct download
           res.set({
             "Content-Type": "application/pdf",
             "Content-Disposition": `attachment; filename="resume.pdf"`,
-            "Content-Length": pdfBuffer.length,
           });
-          res.send(pdfBuffer);
+          return res.send(pdfBuffer);
         } catch (pdfError) {
           console.error("PDF generation error:", pdfError);
-          res
+          return res
             .status(500)
             .json({ success: false, message: "PDF generation failed" });
+        } finally {
+          if (browser) await browser.close();
         }
       }
     );
