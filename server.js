@@ -18,6 +18,8 @@ import corsOptions from "./src/config/corsConfig.js";
 const app = express();
 await connectDB();
 
+app.use(corsOptions);
+
 const hbs = exphbs.create({
   defaultLayout: false,
 });
@@ -26,16 +28,6 @@ const __dirname = path.dirname(__filename);
 
 // global middlewares
 app.use(helmet());
-app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept"
-  );
-  next();
-});
-
-app.use(corsOptions);
 app.use(cookieParser());
 app.use(express.json());
 // app.use(logger);

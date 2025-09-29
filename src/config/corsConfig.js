@@ -15,7 +15,7 @@ const corsOptions = {
       return callback(new Error("Not allowed by CORS: Unauthorized domain"));
     }
   },
-  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  methods: ["GET", "POST", "PUT", "DELETE"],
   allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true,
 };
