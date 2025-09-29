@@ -6,7 +6,6 @@ export async function createResume(req, res) {
   const id = req.user.id;
   const newResume = new Resume({
     ...body,
-    templateId: "68c8580c0c771e6b72642d09",
     userId: id,
   });
 
