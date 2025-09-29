@@ -1,4 +1,5 @@
 import express from "express";
+import cors from "cors";
 import { config } from "dotenv";
 import helmet from "helmet";
 import cookieParser from "cookie-parser";
@@ -18,7 +19,7 @@ import corsOptions from "./src/config/corsConfig.js";
 const app = express();
 await connectDB();
 
-app.use(corsOptions);
+app.use(cors(corsOptions));
 
 const hbs = exphbs.create({
   defaultLayout: false,
