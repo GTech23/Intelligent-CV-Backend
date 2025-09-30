@@ -140,9 +140,10 @@ export async function downloadResume(req, res) {
         let browser;
         try {
           browser = await puppeteer.launch({
+            headless: "new",
             args: ["--no-sandbox", "--disable-setuid-sandbox"],
-            headless: true,
-            executablePath: puppeteer.executablePath(),
+            executablePath:
+              process.env.CHROMIUM_PATH || puppeteer.executablePath(),
           });
           const page = await browser.newPage();
 
