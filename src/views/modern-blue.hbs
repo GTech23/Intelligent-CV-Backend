@@ -40,7 +40,8 @@
     <div class="resume-container">
       <!-- Header -->
       <div class="header">
-        <h1 class="full-name">{{resume.personal.fullName}}</h1>
+        <h1 class="full-name">{{resume.personal.firstName}}
+          {{resume.personal.lastName}}</h1>
         <h2 class="title">{{resume.personal.title}}</h2>
         <div class="contact-info">
           {{#if resume.personal.email}}📧 {{resume.personal.email}}{{/if}}
