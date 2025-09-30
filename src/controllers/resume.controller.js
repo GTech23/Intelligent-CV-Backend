@@ -111,6 +111,7 @@ export async function renderResume(req, res) {
   }
 }
 
+import pdf from "html-pdf-node";
 export async function downloadResume(req, res) {
   const templateId = req.params.id;
 
@@ -137,22 +138,15 @@ export async function downloadResume(req, res) {
             .json({ success: false, message: "Template render failed" });
         }
 
-        let browser;
         try {
-          browser = await puppeteer.launch({
-            headless: "new",
-            args: ["--no-sandbox", "--disable-setuid-sandbox"],
-            executablePath:
-              process.env.CHROMIUM_PATH || puppeteer.executablePath(),
-          });
-          const page = await browser.newPage();
+          // Prepare html-pdf-node input
+          const file = { content: html };
 
-          await page.setContent(html, { waitUntil: "networkidle0" });
+          // PDF options
+          const options = { format: "A4", printBackground: true };
 
-          const pdfBuffer = await page.pdf({
-            format: "A4",
-            printBackground: true,
-          });
+          // Generate PDF as buffer
+          const pdfBuffer = await pdf.generatePdf(file, options);
 
           res.set({
             "Content-Type": "application/pdf",
@@ -164,8 +158,6 @@ export async function downloadResume(req, res) {
           return res
             .status(500)
             .json({ success: false, message: "PDF generation failed" });
-        } finally {
-          if (browser) await browser.close();
         }
       }
     );
