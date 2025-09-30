@@ -4,107 +4,50 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{{resume.personal.title}}</title>
     <style>
-      * { margin: 0; padding: 0; box-sizing: border-box; } body { font-family:
-      -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
-      Cantarell, sans-serif; line-height: 1.6; color: #333; background-color:
-      #f8f9fa; padding: 2rem 1rem; } .resume-container { max-width: 900px;
-      margin: 0 auto; background: white; box-shadow: 0 10px 30px rgba(0, 0, 0,
-      0.1); border-radius: 12px; overflow: hidden; } /* Header Styles */ .header
-      { background: linear-gradient(135deg, #2563eb, #1d4ed8); color: white;
-      padding: 3rem 2rem; } .header-content { display: flex; align-items:
-      center; gap: 2rem; } .profile-image { width: 120px; height: 120px;
-      border-radius: 50%; border: 4px solid white; object-fit: cover; display:
-      none; } .profile-image.visible { display: block; } .header-text { flex: 1;
-      } .full-name { font-size: 3rem; font-weight: 700; margin-bottom: 0.5rem;
-      line-height: 1.1; } .title { font-size: 1.5rem; font-weight: 300;
-      margin-bottom: 1.5rem; opacity: 0.9; } .contact-info { display: flex;
-      flex-wrap: wrap; gap: 1.5rem; font-size: 0.9rem; } .contact-item {
-      display: flex; align-items: center; gap: 0.5rem; opacity: 0.9; transition:
-      opacity 0.3s ease; } .contact-item:hover { opacity: 1; cursor: pointer; }
-      .contact-icon { width: 16px; height: 16px; fill: currentColor; } /* Main
-      Content */ .main-content { padding: 2rem; } .section { margin-bottom:
-      2.5rem; } .section-title { font-size: 1.5rem; font-weight: 700; color:
-      #1f2937; margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 3px
-      solid #2563eb; position: relative; } .summary { font-size: 1rem;
-      line-height: 1.7; color: #4b5563; } /* Experience & Education Items */
-      .timeline-item { border-left: 4px solid #2563eb; padding-left: 1.5rem;
-      margin-bottom: 2rem; position: relative; } .timeline-item::before {
-      content: ''; position: absolute; left: -8px; top: 0; width: 12px; height:
-      12px; background: #2563eb; border-radius: 50%; } .education-item {
-      border-left-color: #059669; } .education-item::before { background:
-      #059669; } .project-item { border-left-color: #7c3aed; }
-      .project-item::before { background: #7c3aed; } .certification-item {
-      border-left-color: #d97706; } .certification-item::before { background:
-      #d97706; } .item-header { display: flex; justify-content: space-between;
-      align-items: flex-start; margin-bottom: 0.5rem; flex-wrap: wrap; gap:
-      1rem; } .item-title { font-size: 1.25rem; font-weight: 700; color:
-      #1f2937; } .item-subtitle { font-size: 1.1rem; font-weight: 600; color:
-      #2563eb; margin-bottom: 0.25rem; } .education-item .item-subtitle { color:
-      #059669; } .project-item .item-subtitle { color: #7c3aed; }
-      .certification-item .item-subtitle { color: #d97706; } .item-meta {
-      text-align: right; color: #6b7280; font-weight: 500; } .item-meta .date {
-      font-size: 0.95rem; } .item-meta .location { font-size: 0.85rem; }
-      .item-description { color: #4b5563; margin-bottom: 1rem; line-height: 1.6;
-      } .highlights { list-style: none; } .highlights li { position: relative;
-      padding-left: 1.5rem; margin-bottom: 0.5rem; color: #4b5563; line-height:
-      1.5; } .highlights li::before { content: '•'; position: absolute; left: 0;
-      color: #2563eb; font-weight: bold; } /* Skills */ .skills-container {
-      display: flex; flex-wrap: wrap; gap: 0.75rem; } .skill-tag { background:
-      #dbeafe; color: #1d4ed8; padding: 0.5rem 1rem; border-radius: 25px;
-      font-weight: 500; font-size: 0.9rem; transition: all 0.3s ease; }
-      .skill-tag:hover { background: #bfdbfe; transform: translateY(-1px); } /*
-      Languages */ .languages-grid { display: grid; grid-template-columns:
-      repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; } .language-item {
-      background: #f9fafb; padding: 1rem; border-radius: 8px; border: 1px solid
-      #e5e7eb; } .language-name { font-weight: 700; color: #1f2937;
-      margin-bottom: 0.25rem; } .language-level { color: #6b7280; font-size:
-      0.9rem; } /* Project Links */ .project-link { color: #7c3aed;
-      text-decoration: none; transition: color 0.3s ease; } .project-link:hover
-      { color: #5b21b6; text-decoration: underline; } /* Responsive Design */
-      @media (max-width: 768px) { body { padding: 1rem 0.5rem; } .header {
-      padding: 2rem 1rem; } .header-content { flex-direction: column;
-      text-align: center; } .full-name { font-size: 2.5rem; } .contact-info {
-      justify-content: center; } .main-content { padding: 1.5rem 1rem; }
-      .item-header { flex-direction: column; align-items: flex-start; }
-      .item-meta { text-align: left; } .languages-grid { grid-template-columns:
-      1fr; } } @media (max-width: 480px) { .full-name { font-size: 2rem; }
-      .contact-info { flex-direction: column; gap: 0.75rem; } }
+      /* Page Setup for A4 */ @page { size: A4; margin: 20mm; } body {
+      font-family: "Helvetica", Arial, sans-serif; font-size: 11pt; color:
+      #2d2d2d; line-height: 1.5; background: white; margin: 0; padding: 0; }
+      .resume-container { max-width: 210mm; min-height: 297mm; margin: auto;
+      background: #fff; padding: 20mm; box-sizing: border-box; } /* Header */
+      .header { text-align: center; padding-bottom: 10mm; border-bottom: 2px
+      solid #2563eb; margin-bottom: 15mm; } .full-name { font-size: 24pt;
+      font-weight: bold; color: #111827; } .title { font-size: 13pt; color:
+      #374151; margin-top: 3mm; } .contact-info { margin-top: 6mm; display:
+      flex; justify-content: center; flex-wrap: wrap; gap: 10mm; font-size:
+      10pt; color: #4b5563; } /* Section */ .section { margin-bottom: 12mm; }
+      .section-title { font-size: 14pt; font-weight: 600; color: #2563eb;
+      border-bottom: 1.5px solid #d1d5db; margin-bottom: 5mm; padding-bottom:
+      2mm; } /* Timeline Items */ .timeline-item { margin-bottom: 8mm; }
+      .item-header { display: flex; justify-content: space-between; align-items:
+      baseline; margin-bottom: 2mm; } .item-title { font-size: 11pt;
+      font-weight: bold; color: #111827; } .item-subtitle { font-size: 10.5pt;
+      font-weight: 500; color: #2563eb; } .item-meta { font-size: 9.5pt; color:
+      #6b7280; text-align: right; } .item-description { font-size: 10pt; color:
+      #374151; margin-top: 2mm; } .highlights { list-style: disc; margin: 4mm 0
+      0 5mm; padding: 0; font-size: 10pt; color: #374151; } /* Skills */
+      .skills-container { display: flex; flex-wrap: wrap; gap: 5px; } .skill-tag
+      { background: #eef2ff; color: #1e3a8a; padding: 3px 10px; border-radius:
+      12px; font-size: 9pt; } /* Languages */ .languages-grid { display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 5mm; }
+      .language-item { font-size: 10pt; padding: 4mm; border: 1px solid #e5e7eb;
+      border-radius: 6px; } .language-name { font-weight: bold; color: #111827;
+      } .language-level { font-size: 9pt; color: #6b7280; } /* Print tweaks */
+      @media print { body { background: white; } .resume-container { box-shadow:
+      none; } }
     </style>
   </head>
   <body>
-
     <div class="resume-container">
-      <!-- Header Section -->
+      <!-- Header -->
       <div class="header">
-        <div class="header-content">
-          {{#if resume.personal.profileImage}}
-            <img
-              src="{{resume.personal.profileImage}}"
-              alt="Profile"
-              class="profile-image visible"
-            />
-          {{/if}}
-          <div class="header-text">
-            <h1 class="full-name">{{resume.personal.fullName}}</h1>
-            <h2 class="title">{{resume.personal.title}}</h2>
-            <div class="contact-info">
-              {{#if resume.personal.email}}
-                <div class="contact-item">📧 {{resume.personal.email}}</div>
-              {{/if}}
-              {{#if resume.personal.phone}}
-                <div class="contact-item">📞 {{resume.personal.phone}}</div>
-              {{/if}}
-              {{#if resume.personal.address}}
-                <div class="contact-item">📍 {{resume.personal.address}}</div>
-              {{/if}}
-              {{#if resume.personal.linkedin}}
-                <div class="contact-item">🔗 {{resume.personal.linkedin}}</div>
-              {{/if}}
-              {{#if resume.personal.website}}
-                <div class="contact-item">🌍 {{resume.personal.website}}</div>
-              {{/if}}
-            </div>
-          </div>
+        <h1 class="full-name">{{resume.personal.fullName}}</h1>
+        <h2 class="title">{{resume.personal.title}}</h2>
+        <div class="contact-info">
+          {{#if resume.personal.email}}📧 {{resume.personal.email}}{{/if}}
+          {{#if resume.personal.phone}}📞 {{resume.personal.phone}}{{/if}}
+          {{#if resume.personal.address}}📍 {{resume.personal.address}}{{/if}}
+          {{#if resume.personal.linkedin}}🔗 {{resume.personal.linkedin}}{{/if}}
+          {{#if resume.personal.website}}🌍 {{resume.personal.website}}{{/if}}
         </div>
       </div>
 
@@ -113,14 +56,14 @@
         {{#if resume.personal.summary}}
           <section class="section">
             <h2 class="section-title">Professional Summary</h2>
-            <p class="summary">{{resume.personal.summary}}</p>
+            <p>{{resume.personal.summary}}</p>
           </section>
         {{/if}}
 
         <!-- Experience -->
         {{#if resume.experience.length}}
           <section class="section">
-            <h2 class="section-title">Professional Experience</h2>
+            <h2 class="section-title">Experience</h2>
             {{#each resume.experience}}
               <div class="timeline-item">
                 <div class="item-header">
@@ -129,11 +72,13 @@
                     <div class="item-subtitle">{{company}}</div>
                   </div>
                   <div class="item-meta">
-                    <span class="date">{{startDate}} - {{endDate}}</span><br />
-                    <span class="location">{{location}}</span>
+                    {{startDate}}
+                    –
+                    {{endDate}}<br />
+                    {{location}}
                   </div>
                 </div>
-                <p class="item-description">{{description}}</p>
+                <div class="item-description">{{description}}</div>
                 {{#if highlights.length}}
                   <ul class="highlights">
                     {{#each highlights}}
@@ -151,19 +96,17 @@
           <section class="section">
             <h2 class="section-title">Education</h2>
             {{#each resume.education}}
-              <div class="timeline-item education-item">
+              <div class="timeline-item">
                 <div class="item-header">
                   <div>
                     <div class="item-title">{{degree}}</div>
                     <div class="item-subtitle">{{school}}</div>
                   </div>
-                  <div class="item-meta">
-                    <span class="date">{{startDate}} - {{endDate}}</span>
-                  </div>
+                  <div class="item-meta">{{startDate}} – {{endDate}}</div>
                 </div>
-                <p class="item-description">{{fieldOfStudy}}
+                <div class="item-description">{{fieldOfStudy}}
                   —
-                  {{description}}</p>
+                  {{description}}</div>
               </div>
             {{/each}}
           </section>
@@ -186,20 +129,14 @@
           <section class="section">
             <h2 class="section-title">Projects</h2>
             {{#each resume.projects}}
-              <div class="timeline-item project-item">
+              <div class="timeline-item">
                 <div class="item-header">
-                  <div>
-                    <div class="item-title">{{name}}</div>
-                    <div class="item-subtitle">
-                      <a
-                        href="{{link}}"
-                        target="_blank"
-                        class="project-link"
-                      >{{link}}</a>
-                    </div>
+                  <div class="item-title">{{name}}</div>
+                  <div class="item-subtitle">
+                    <a href="{{link}}" target="_blank">{{link}}</a>
                   </div>
                 </div>
-                <p class="item-description">{{description}}</p>
+                <div class="item-description">{{description}}</div>
               </div>
             {{/each}}
           </section>
@@ -210,15 +147,13 @@
           <section class="section">
             <h2 class="section-title">Certifications</h2>
             {{#each resume.certifications}}
-              <div class="timeline-item certification-item">
+              <div class="timeline-item">
                 <div class="item-header">
                   <div class="item-title">{{name}}</div>
                   <div class="item-subtitle">{{issuer}}</div>
-                  <div class="item-meta"><span
-                      class="date"
-                    >{{date}}</span></div>
+                  <div class="item-meta">{{date}}</div>
                 </div>
-                <p class="item-description">{{description}}</p>
+                <div class="item-description">{{description}}</div>
               </div>
             {{/each}}
           </section>
@@ -240,6 +175,5 @@
         {{/if}}
       </div>
     </div>
-
   </body>
 </html>
