@@ -4,36 +4,39 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{{resume.personal.title}}</title>
     <style>
-      /* Page Setup for A4 */ @page { size: A4; margin: 20mm; } body {
-      font-family: "Helvetica", Arial, sans-serif; font-size: 11pt; color:
-      #2d2d2d; line-height: 1.5; background: white; margin: 0; padding: 0; }
-      .resume-container { max-width: 210mm; min-height: 297mm; margin: auto;
-      background: #fff; padding: 20mm; box-sizing: border-box; } /* Header */
-      .header { text-align: center; padding-bottom: 10mm; border-bottom: 2px
-      solid #2563eb; margin-bottom: 15mm; } .full-name { font-size: 24pt;
-      font-weight: bold; color: #111827; } .title { font-size: 13pt; color:
-      #374151; margin-top: 3mm; } .contact-info { margin-top: 6mm; display:
-      flex; justify-content: center; flex-wrap: wrap; gap: 10mm; font-size:
-      10pt; color: #4b5563; } /* Section */ .section { margin-bottom: 12mm; }
-      .section-title { font-size: 14pt; font-weight: 600; color: #2563eb;
-      border-bottom: 1.5px solid #d1d5db; margin-bottom: 5mm; padding-bottom:
-      2mm; } /* Timeline Items */ .timeline-item { margin-bottom: 8mm; }
-      .item-header { display: flex; justify-content: space-between; align-items:
-      baseline; margin-bottom: 2mm; } .item-title { font-size: 11pt;
-      font-weight: bold; color: #111827; } .item-subtitle { font-size: 10.5pt;
-      font-weight: 500; color: #2563eb; } .item-meta { font-size: 9.5pt; color:
-      #6b7280; text-align: right; } .item-description { font-size: 10pt; color:
-      #374151; margin-top: 2mm; } .highlights { list-style: disc; margin: 4mm 0
-      0 5mm; padding: 0; font-size: 10pt; color: #374151; } /* Skills */
-      .skills-container { display: flex; flex-wrap: wrap; gap: 5px; } .skill-tag
-      { background: #eef2ff; color: #1e3a8a; padding: 3px 10px; border-radius:
-      12px; font-size: 9pt; } /* Languages */ .languages-grid { display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 5mm; }
-      .language-item { font-size: 10pt; padding: 4mm; border: 1px solid #e5e7eb;
-      border-radius: 6px; } .language-name { font-weight: bold; color: #111827;
-      } .language-level { font-size: 9pt; color: #6b7280; } /* Print tweaks */
-      @media print { body { background: white; } .resume-container { box-shadow:
-      none; } }
+      @page { size: A4; margin: 20mm; } body { font-family: "Helvetica", Arial,
+      sans-serif; font-size: 11pt; color: #2d2d2d; line-height: 1.5; background:
+      white; margin: 0; padding: 0; } .resume-container { max-width: 210mm;
+      min-height: 297mm; margin: auto; background: #fff; padding: 0; box-sizing:
+      border-box; } .header { text-align: center; padding-bottom: 10mm;
+      border-bottom: 2px solid #2563eb; margin-bottom: 12mm; } .full-name {
+      font-size: 22pt; font-weight: bold; color: #111827; } .title { font-size:
+      13pt; color: #374151; margin-top: 3mm; } .contact-info { margin-top: 6mm;
+      display: flex; justify-content: center; flex-wrap: wrap; gap: 8mm;
+      font-size: 10pt; color: #4b5563; } /* Sections */ .section {
+      margin-bottom: 14mm; page-break-inside: avoid; /* prevent breaking in
+      middle */ } .section-title { font-size: 14pt; font-weight: 600; color:
+      #2563eb; border-bottom: 1.5px solid #d1d5db; margin-bottom: 5mm;
+      padding-bottom: 2mm; } .timeline-item { margin-bottom: 8mm;
+      page-break-inside: avoid; } .item-header { display: flex; justify-content:
+      space-between; align-items: baseline; margin-bottom: 2mm; } .item-title {
+      font-size: 11pt; font-weight: bold; color: #111827; } .item-subtitle {
+      font-size: 10.5pt; font-weight: 500; color: #2563eb; } .item-meta {
+      font-size: 9.5pt; color: #6b7280; text-align: right; } .item-description {
+      font-size: 10pt; color: #374151; margin-top: 2mm; } .highlights {
+      list-style: disc; margin: 4mm 0 0 5mm; padding: 0; font-size: 10pt; color:
+      #374151; } /* Skills */ .skills-container { display: flex; flex-wrap:
+      wrap; gap: 6px; } .skill-tag { background: #eef2ff; color: #1e3a8a;
+      padding: 4px 10px; border-radius: 12px; font-size: 9pt; } /* Languages */
+      .languages-grid { display: grid; grid-template-columns: repeat(auto-fit,
+      minmax(120px, 1fr)); gap: 5mm; } .language-item { font-size: 10pt;
+      padding: 4mm; border: 1px solid #e5e7eb; border-radius: 6px;
+      page-break-inside: avoid; } .language-name { font-weight: bold; color:
+      #111827; } .language-level { font-size: 9pt; color: #6b7280; } /*
+      Print-specific tweaks */ @media print { body { background: white; }
+      .resume-container { box-shadow: none; } .section { page-break-inside:
+      avoid; } } /* Force manual page break if needed */ .page-break {
+      page-break-before: always; }
     </style>
   </head>
   <body>
@@ -151,10 +154,8 @@
               <div class="timeline-item">
                 <div class="item-header">
                   <div class="item-title">{{name}}</div>
-                  <div class="item-subtitle">{{issuer}}</div>
                   <div class="item-meta">{{date}}</div>
                 </div>
-                <div class="item-description">{{description}}</div>
               </div>
             {{/each}}
           </section>
