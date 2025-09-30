@@ -142,6 +142,7 @@ export async function downloadResume(req, res) {
           browser = await puppeteer.launch({
             args: ["--no-sandbox", "--disable-setuid-sandbox"],
             headless: true,
+            executablePath: puppeteer.executablePath(),
           });
           const page = await browser.newPage();
 
@@ -152,7 +153,6 @@ export async function downloadResume(req, res) {
             printBackground: true,
           });
 
-          // Option 1: Direct download
           res.set({
             "Content-Type": "application/pdf",
             "Content-Disposition": `attachment; filename="resume.pdf"`,
