@@ -128,8 +128,7 @@ export async function downloadResume(req, res) {
     }
 
     res.render(
-      resume.templateId.filePath,
-      { resume: resume.toObject() },
+      "modern-blue",
       async (err, html) => {
         if (err) {
           console.error("Handlebars render error:", err);

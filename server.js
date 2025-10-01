@@ -53,6 +53,10 @@ app.use((err, req, res, next) => {
   next(err);
 });
 
+app.get('/view', (req, res) => {
+  res.render('modern-blue.hbs')
+})
+
 app.listen(PORT, () => {
   console.log(`Server connected to ${process.env.BASE_URL}:${PORT}`);
 });
