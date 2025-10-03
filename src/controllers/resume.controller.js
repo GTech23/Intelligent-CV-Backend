@@ -100,6 +100,7 @@ export async function renderResume(req, res) {
       return res
         .status(404)
         .json({ message: `Resume not found`, success: false });
+    res.setHeader("Content-Type", "text/html");
     return res.render(resume.templateId.filePath, {
       resume: resume.toObject(),
     });
@@ -127,39 +128,43 @@ export async function downloadResume(req, res) {
         .json({ success: false, message: "Resume not found" });
     }
 
-    res.render(
-      "modern-blue",
-      async (err, html) => {
-        if (err) {
-          console.error("Handlebars render error:", err);
-          return res
-            .status(500)
-            .json({ success: false, message: "Template render failed" });
-        }
-
-        try {
-          // Prepare html-pdf-node input
-          const file = { content: html };
-
-          // PDF options
-          const options = { format: "A4", printBackground: true };
-
-          // Generate PDF as buffer
-          const pdfBuffer = await pdf.generatePdf(file, options);
-
-          res.set({
-            "Content-Type": "application/pdf",
-            "Content-Disposition": `attachment; filename="resume.pdf"`,
-          });
-          return res.send(pdfBuffer);
-        } catch (pdfError) {
-          console.error("PDF generation error:", pdfError);
-          return res
-            .status(500)
-            .json({ success: false, message: "PDF generation failed" });
-        }
+    res.render("modern-blue", async (err, html) => {
+      if (err) {
+        console.error("Handlebars render error:", err);
+        return res
+          .status(500)
+          .json({ success: false, message: "Template render failed" });
       }
-    );
+
+      try {
+        const file = { content: html };
+
+        const options = {
+          format: "A4",
+          printBackground: true,
+          margin: {
+            top: "20mm",
+            bottom: "20mm",
+            left: "15mm",
+            right: "15mm",
+          },
+        };
+
+        const pdfBuffer = pdf.generatePdf(file, options);
+
+        res.set({
+          "Content-Type": "application/pdf",
+          "Content-Disposition": `attachment; filename="resume.pdf"`,
+        });
+
+        return res.send(pdfBuffer);
+      } catch (pdfError) {
+        console.error("PDF generation error:", pdfError);
+        return res
+          .status(500)
+          .json({ success: false, message: "PDF generation failed" });
+      }
+    });
   } catch (error) {
     console.error("Error generating PDF:", error);
     if (error.name === "CastError") {
