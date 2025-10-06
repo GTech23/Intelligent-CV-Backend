@@ -39,7 +39,8 @@ const resumeSchema = new mongoose.Schema(
         graduationMonth: String,
         graduationYear: String,
         removeGraudationDate: Boolean,
-        location: String,
+        state: String,
+        country: String,
       },
     ],
 
@@ -65,7 +66,6 @@ const resumeSchema = new mongoose.Schema(
     languages: [
       {
         name: String,
-        level: String,
       },
     ],
 

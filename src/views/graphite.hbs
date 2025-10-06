@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>David Pérez - Resume</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<style>
+ @import url('https://fonts.googleapis.com/css2?family=Amaranth:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Amaranth', sans-serif;
+  background: #f8f9f9;
+  color: #333;
+  padding: 30px;
+}
+
+.resume-container {
+  max-width: 850px;
+  background: #fff;
+  margin: 0 auto;
+  padding: 40px 60px;
+  border-radius: 8px;
+  box-shadow: 0 0 6px rgba(0,0,0,0.1);
+}
+
+/* Header */
+header {
+  text-align: center;
+  border-bottom: 3px solid #3a7258;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+}
+
+header h1 {
+  font-size: 2.2rem;
+  letter-spacing: 1px;
+  color: #1a3c2f;
+}
+
+header h2 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #3a7258;
+  margin-top: 4px;
+}
+
+/* Contact */
+.contact {
+  text-align: center;
+  font-size: 0.95rem;
+  color: #444;
+  margin: 15px 0 25px;
+}
+
+.contact a {
+  color: #3a7258;
+  text-decoration: none;
+}
+
+/* Section Headings */
+section h3 {
+  color: #3a7258;
+  border-bottom: 2px solid #3a7258;
+  padding-bottom: 5px;
+  margin-bottom: 10px;
+  font-size: 1.1rem;
+  text-transform: uppercase;
+}
+
+/* Summary, Education, Certifications */
+.summary p, .education p, .certifications ul, .references p {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin-bottom: 10px;
+}
+
+/* Skills */
+.skill-tags {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.skill-tags li {
+  background: #e6f0ea;
+  color: #1a3c2f;
+  border-radius: 5px;
+  padding: 5px 10px;
+  font-size: 0.9rem;
+  border: 1px solid #3a7258;
+}
+
+/* Experience */
+.exp-item {
+  margin-bottom: 20px;
+}
+
+.exp-item h4 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1a3c2f;
+}
+
+.exp-item p {
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.exp-item ul {
+  margin-top: 5px;
+  margin-left: 18px;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+/* Certifications & References */
+.certifications ul {
+  margin-left: 18px;
+}
+
+.references {
+  margin-top: 20px;
+}
+
+</style>
+<body>
+  <div class="resume-container">
+    <!-- Header -->
+    <header>
+      <h1>David Pérez</h1>
+      <h2>Administrative Assistant</h2>
+    </header>
+
+    <!-- Contact Info -->
+    <section class="contact">
+      <p>(212) 204-5342</p>
+      <p>Chicago, IL 60622</p>
+      <p><a href="mailto:davidperez@gmail.com">davidperez@gmail.com</a></p>
+      <p><a href="https://linkedin.com/in/davidperez">linkedin.com/in/davidperez</a></p>
+    </section>
+
+    <!-- Summary -->
+    <section class="summary">
+      <h3>Professional Summary</h3>
+      <p>
+        Administrative Assistant with 6+ years of experience preparing flawless presentations,
+        assembling facility reports, and maintaining confidentiality. Possesses a B.A. in History and
+        strong expertise in Microsoft Excel. Looking to leverage my knowledge and experience into a
+        role as Project Manager.
+      </p>
+    </section>
+
+    <!-- Education -->
+    <section class="education">
+      <h3>Education</h3>
+      <div class="edu-item">
+        <h4>Bachelor of Arts in History</h4>
+        <p>River Brook University, Chicago, IL — May 20XX</p>
+        <p><em>Graduated Magna Cum Laude</em></p>
+      </div>
+    </section>
+
+    <!-- Skills -->
+    <section class="skills">
+      <h3>Key Skills</h3>
+      <ul class="skill-tags">
+        <li>Microsoft Office</li>
+        <li>HubSpot</li>
+        <li>MailChimp</li>
+        <li>Google Workspace</li>
+        <li>QuickBooks</li>
+        <li>Microsoft Teams</li>
+      </ul>
+    </section>
+
+    <!-- Certifications -->
+    <section class="certifications">
+      <h3>Certifications</h3>
+      <ul>
+        <li>Project Management Professional (PMP) – In Progress</li>
+        <li>Advanced Excel Training – Coursera</li>
+      </ul>
+    </section>
+
+    <!-- Experience -->
+    <section class="experience">
+      <h3>Professional Experience</h3>
+
+      <div class="exp-item">
+        <h4>Administrative Assistant</h4>
+        <p><strong>Redford & Sons, Chicago, IL</strong> | Sept 20XX – Present</p>
+        <ul>
+          <li>Scheduled and coordinated meetings, appointments, and travel arrangements for managers.</li>
+          <li>Trained 2 administrative assistants during company expansion.</li>
+          <li>Developed new organizational practices saving $3,000 annually.</li>
+          <li>Maintained utmost discretion when handling sensitive topics.</li>
+        </ul>
+      </div>
+
+      <div class="exp-item">
+        <h4>Secretary</h4>
+        <p><strong>Bright Spot Ltd, Boston, MA</strong> | June 20XX – August 20XX</p>
+        <ul>
+          <li>Typed correspondence, memos, and reports weekly for management.</li>
+          <li>Maintained office supply inventories and adhered to budgeting.</li>
+          <li>Greeted visitors and assisted with scheduling appointments.</li>
+        </ul>
+      </div>
+
+      <div class="exp-item">
+        <h4>Secretary</h4>
+        <p><strong>Redford & Sons, Chicago, IL</strong> | Dec 20XX – May 20XX</p>
+        <ul>
+          <li>Recorded and distributed weekly meetings.</li>
+          <li>Answered 20+ calls daily, resolving issues efficiently.</li>
+          <li>Arranged appointments and managed meeting schedules.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- References -->
+    <section class="references">
+      <h3>References</h3>
+      <p>Available upon request.</p>
+    </section>
+  </div>
+</body>
+</html>
