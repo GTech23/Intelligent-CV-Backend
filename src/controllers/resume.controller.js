@@ -1,5 +1,6 @@
 import Resume from "../models/Resume.js";
-import puppeteer from "puppeteer";
+import * as pdf from "html-pdf-node";
+
 
 export async function createResume(req, res) {
   const body = req.body;
@@ -112,7 +113,6 @@ export async function renderResume(req, res) {
   }
 }
 
-import pdf from "html-pdf-node";
 export async function downloadResume(req, res) {
   const templateId = req.params.id;
 
@@ -123,12 +123,13 @@ export async function downloadResume(req, res) {
     }).populate("templateId");
 
     if (!resume) {
-      return res
-        .status(404)
-        .json({ success: false, message: "Resume not found" });
+      return res.status(404).json({
+        success: false,
+        message: "Resume not found",
+      });
     }
 
-    res.render("modern-blue", async (err, html) => {
+    res.render("majestic-red", async (err, html) => {
       if (err) {
         console.error("Handlebars render error:", err);
         return res
@@ -138,7 +139,6 @@ export async function downloadResume(req, res) {
 
       try {
         const file = { content: html };
-
         const options = {
           format: "A4",
           printBackground: true,
@@ -150,11 +150,11 @@ export async function downloadResume(req, res) {
           },
         };
 
-        const pdfBuffer = pdf.generatePdf(file, options);
-
+        const pdfBuffer = await pdf.default.generatePdf(file, options);
+        
         res.set({
           "Content-Type": "application/pdf",
-          "Content-Disposition": `attachment; filename="resume.pdf"`,
+          "Content-Disposition": 'attachment; filename="resume.pdf"',
         });
 
         return res.send(pdfBuffer);
@@ -168,7 +168,7 @@ export async function downloadResume(req, res) {
   } catch (error) {
     console.error("Error generating PDF:", error);
     if (error.name === "CastError") {
-      return res.status(404).json({ error: `Resume not found` });
+      return res.status(404).json({ error: "Resume not found" });
     }
     res.status(500).json({ error: "Failed to download resume" });
   }
