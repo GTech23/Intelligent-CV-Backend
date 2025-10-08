@@ -143,10 +143,10 @@ export async function downloadResume(req, res) {
           format: "A4",
           printBackground: true,
           margin: {
-            top: "20mm",
-            bottom: "20mm",
-            left: "15mm",
-            right: "15mm",
+            top: "15mm",
+            bottom: "15mm",
+            left: "10mm",
+            right: "10mm",
           },
         };
 
