@@ -54,7 +54,7 @@ app.use((err, req, res, next) => {
 });
 
 app.get('/view', (req, res) => {
-  res.render('graphite.hbs')
+  res.render('majestic-red.hbs')
 })
 
 app.listen(PORT, () => {

@@ -2,6 +2,7 @@ const allowedOrigins = [
   "http://localhost:5173",
   "http://localhost:3000",
   "https://intelligent-cv-backend.onrender.com",
+  "https://verbose-barnacle-979jx97qg9ggcpw74.github.dev"
 ];
 
 const corsOptions = {
