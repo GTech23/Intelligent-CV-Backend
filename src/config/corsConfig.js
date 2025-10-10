@@ -3,7 +3,7 @@ const allowedOrigins = [
   "http://localhost:3000",
   "https://intelligent-cv-backend.onrender.com",
   "https://verbose-barnacle-979jx97qg9ggcpw74-5173.app.github.dev",
-  "intelligent-cv-t7lw.vercel.app",
+  "https://intelligent-cv-t7lw.vercel.app",
 ];
 
 const corsOptions = {
