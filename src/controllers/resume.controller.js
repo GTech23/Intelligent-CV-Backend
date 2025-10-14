@@ -1,4 +1,5 @@
 import Resume from "../models/Resume.js";
+import ResumeTemplate from "../models/ResumeTemplate.js";
 import * as pdf from "html-pdf-node";
 
 
@@ -115,12 +116,10 @@ export async function renderResume(req, res) {
 
 export async function downloadResume(req, res) {
   const templateId = req.params.id;
-
+ const resumeData = req.body
   try {
-    const resume = await Resume.findOne({
-      _id: templateId,
-      userId: req.user.id,
-    }).populate("templateId");
+    const resume = await ResumeTemplate.findOne({
+      _id: templateId, })
 
     if (!resume) {
       return res.status(404).json({
@@ -129,7 +128,10 @@ export async function downloadResume(req, res) {
       });
     }
 
-    res.render("majestic-red", async (err, html) => {
+    const filePath = resume.filePath;
+    console.log(filePath)
+
+    res.render(filePath, {resume: resumeData}, async (err, html) => {
       if (err) {
         console.error("Handlebars render error:", err);
         return res
@@ -165,6 +167,7 @@ export async function downloadResume(req, res) {
           .json({ success: false, message: "PDF generation failed" });
       }
     });
+  
   } catch (error) {
     console.error("Error generating PDF:", error);
     if (error.name === "CastError") {
