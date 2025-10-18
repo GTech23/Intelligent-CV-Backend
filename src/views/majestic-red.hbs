@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>{{personal.firstName}} {{personal.lastName}} - Resume</title>
+  <title>{{#if resume.personal}}{{resume.personal.firstName}} {{resume.personal.lastName}}{{else}}Resume{{/if}}</title>
 
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Fjalla+One&display=swap');
@@ -33,6 +33,9 @@
     .skills-list { list-style: none; margin-left: 0; }
     .skills-list li { padding-left: 20px; position: relative; margin-bottom: 10px; }
     .skills-list li:before { content: "•"; color: #c85a54; font-weight: bold; position: absolute; left: 0; }
+    .avatar { width: 120px; height: 120px; border-radius: 8px; object-fit: cover; margin: 0 auto 12px auto; }
+    .contact-item { font-size: 13px; color: #444; margin-bottom: 8px; }
+    .reference-item { margin-bottom: 12px; font-size: 13px; color: #444; }
   </style>
 </head>
 
@@ -40,9 +43,16 @@
   <div class="resume">
     <!-- Header -->
     <div class="header">
-      <h1>{{personal.firstName}} {{personal.lastName}}</h1>
-      {{#if personal.title}}
-        <div class="job-title">{{personal.title}}</div>
+      <h1>
+        {{#if resume.personal}}
+          {{resume.personal.firstName}} {{resume.personal.lastName}}
+        {{else}}
+          Candidate Name
+        {{/if}}
+      </h1>
+
+      {{#if resume.personal.title}}
+        <div class="job-title">{{resume.personal.title}}</div>
       {{/if}}
     </div>
 
@@ -52,53 +62,71 @@
       <div class="left-column">
 
         <!-- Summary -->
-        {{#if personal.summary}}
+        {{#if resume.personal.summary}}
         <div class="section">
           <h2 class="section-title">Summary</h2>
-          <p class="summary-text">{{personal.summary}}</p>
+          <p class="summary-text">{{resume.personal.summary}}</p>
         </div>
         {{/if}}
 
         <!-- Education -->
-        {{#if education.length}}
+        {{#if resume.education}}
+        {{#if resume.education.length}}
         <div class="section">
           <h2 class="section-title">Education</h2>
-          {{#each education}}
+          {{#each resume.education}}
           <div class="education-item">
-            <div class="degree">{{degree}} in {{fieldOfStudy}}</div>
-            <div class="school">{{school}} - {{location}}</div>
+            <div class="degree">{{#if degree}}{{degree}}{{else}}Education{{/if}}{{#if fieldOfStudy}} in {{fieldOfStudy}}{{/if}}</div>
+            <div class="school">{{#if school}}{{school}}{{/if}}{{#if location}} - {{location}}{{/if}}</div>
             {{#unless removeGraduationDate}}
-            <div class="date">{{graduationMonth}} {{graduationYear}}</div>
+              <div class="date">
+                {{#if graduationMonth}}{{graduationMonth}} {{/if}}{{#if graduationYear}}{{graduationYear}}{{/if}}
+              </div>
             {{/unless}}
           </div>
           {{/each}}
         </div>
         {{/if}}
+        {{/if}}
 
         <!-- Experience -->
-        {{#if experience.length}}
+        {{#if resume.experience}}
+        {{#if resume.experience.length}}
         <div class="section">
           <h2 class="section-title">Work Experience</h2>
-          {{#each experience}}
+          {{#each resume.experience}}
           <div class="job">
             <div class="job-header">
-              <div class="job-title">{{position}}</div>
+              <div class="job-title">{{#if position}}{{position}}{{else}}Role{{/if}}</div>
               <div class="job-details">
-                <span class="date">{{startMonth}} {{startYear}} - 
-                  {{#if isCurrentlyWorking}}Present{{else}}{{endMonth}} {{endYear}}{{/if}}
-                </span> |
-                <span class="company">{{company}}</span>,
-                <span class="location">{{city}}, {{province}}, {{country}}</span>
+                <span class="date">
+                  {{#if startMonth}}{{startMonth}} {{/if}}{{#if startYear}}{{startYear}}{{/if}}
+                  {{#if isCurrentlyWorking}}
+                    — Present
+                  {{else}}
+                    {{#if endMonth}} — {{endMonth}}{{/if}} {{#if endYear}}{{endYear}}{{/if}}
+                  {{/if}}
+                </span>
+                {{#if company}} | <span class="company">{{company}}</span>{{/if}}
+                <span class="location">
+                  {{#if city}} , {{city}}{{/if}}{{#if province}} , {{province}}{{/if}}{{#if country}} , {{country}}{{/if}}
+                </span>
               </div>
             </div>
-            <ul>
-              {{#each responsibilities}}
-              <li>{{this}}</li>
-              {{/each}}
-            </ul>
+
+            {{#if responsibilities}}
+              {{#if responsibilities.length}}
+              <ul>
+                {{#each responsibilities}}
+                <li>{{this}}</li>
+                {{/each}}
+              </ul>
+              {{/if}}
+            {{/if}}
           </div>
           {{/each}}
         </div>
+        {{/if}}
         {{/if}}
 
       </div>
@@ -109,55 +137,64 @@
         <!-- Contact -->
         <div class="section">
           <h2 class="section-title">Contact</h2>
-          {{#if personal.phone}}<div class="contact-item"> {{personal.phone}}</div>{{/if}}
-          {{#if personal.email}}<div class="contact-item"> <a href="mailto:{{personal.email}}">{{personal.email}}</a></div>{{/if}}
-          {{#if personal.city}}<div class="contact-item">{{personal.city}}, {{personal.state}}, {{personal.country}}</div>{{/if}}
-          {{#if personal.linkedin}}<div class="contact-item"><a href="{{personal.linkedin}}">LinkedIn</a></div>{{/if}}
-          {{#if personal.website}}<div class="contact-item"><a href="{{personal.website}}">{{personal.website}}</a></div>{{/if}}
+          {{#if resume.personal.phone}}<div class="contact-item">{{resume.personal.phone}}</div>{{/if}}
+          {{#if resume.personal.email}}<div class="contact-item"><a href="mailto:{{resume.personal.email}}">{{resume.personal.email}}</a></div>{{/if}}
+          {{#if resume.personal.city}}
+            <div class="contact-item">
+              {{resume.personal.city}}{{#if resume.personal.state}}, {{resume.personal.state}}{{/if}}{{#if resume.personal.country}} , {{resume.personal.country}}{{/if}}
+            </div>
+          {{/if}}
+          {{#if resume.personal.linkedin}}<div class="contact-item"><a href="{{resume.personal.linkedin}}" target="_blank">LinkedIn</a></div>{{/if}}
+          {{#if resume.personal.website}}<div class="contact-item"><a href="{{resume.personal.website}}" target="_blank">{{resume.personal.website}}</a></div>{{/if}}
         </div>
 
         <!-- Skills -->
-        {{#if skills.length}}
+        {{#if resume.skills}}
+        {{#if resume.skills.length}}
         <div class="section">
           <h2 class="section-title">Skills</h2>
           <ul class="skills-list">
-            {{#each skills}}
+            {{#each resume.skills}}
             <li>{{this}}</li>
             {{/each}}
           </ul>
         </div>
         {{/if}}
+        {{/if}}
 
         <!-- Certifications -->
-        {{#if certifications.length}}
+        {{#if resume.certifications}}
+        {{#if resume.certifications.length}}
         <div class="section">
           <h2 class="section-title">Certifications</h2>
-          {{#each certifications}}
+          {{#each resume.certifications}}
           <div class="cert-item">{{this}}</div>
           {{/each}}
         </div>
         {{/if}}
-
-        <!-- References -->
-        {{#if references.length}}
-        <div class="section">
-          <h2 class="section-title">References</h2>
-          {{#each references}}
-          <div class="reference-item">
-            <div class="reference-name">{{firstName}} {{lastName}}</div>
-            <div class="reference-title">{{jobTitle}}, {{company}}</div>
-            <div class="reference-contact">Email: {{email}}</div>
-            <div class="reference-contact">Phone: {{phone}}</div>
-            <div class="reference-contact">{{relationshipStatus}}</div>
-          </div>
-          {{/each}}
-        </div>
-        {{else}}
-        <div class="section">
-          <h2 class="section-title">References</h2>
-          <p>Available upon request.</p>
-        </div>
         {{/if}}
+
+        <div class="section">
+          <h2 class="section-title">References</h2>
+          {{#if resume.references}}
+            {{#if resume.references.length}}
+              {{#each resume.references}}
+                <div class="reference-item">
+                  <div class="reference-name">{{firstName}} {{lastName}}</div>
+                  <div class="reference-title">{{jobTitle}}{{#if company}}, {{company}}{{/if}}</div>
+                  {{#if email}}<div class="reference-contact">Email: <a href="mailto:{{email}}">{{email}}</a></div>{{/if}}
+                  {{#if phone}}<div class="reference-contact">Phone: {{phone}}</div>{{/if}}
+                  {{#if relationshipStatus}}<div class="reference-contact">{{relationshipStatus}}</div>{{/if}}
+                </div>
+              {{/each}}
+            {{else}}
+              <p>Available upon request.</p>
+            {{/if}}
+          {{else}}
+            <p>Available upon request.</p>
+          {{/if}}
+
+        </div>
 
       </div>
     </div>

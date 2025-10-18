@@ -91,24 +91,23 @@ export async function deleteResume(req, res) {
 
 export async function renderResume(req, res) {
   const templateId = req.params.id;
-
+  const resumeData = req.body
   try {
-    const resume = await Resume.findOne({
+    const resume = await ResumeTemplate.findOne({
       _id: templateId,
-      userId: req.user.id,
-    }).populate("templateId");
+    })
 
     if (!resume)
       return res
         .status(404)
-        .json({ message: `Resume not found`, success: false });
+        .json({ message: `Template not found`, success: false });
     res.setHeader("Content-Type", "text/html");
-    return res.render(resume.templateId.filePath, {
-      resume: resume.toObject(),
+    return res.render(resume.filePath, {
+      resume: resumeData.toObject(),
     });
   } catch (error) {
     res.status(500).json({
-      error: `Error fetching resume ${error.name}`,
+      error: `Error fetching resume, ${error.message}`,
       success: false,
     });
   }
