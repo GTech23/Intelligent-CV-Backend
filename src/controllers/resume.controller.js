@@ -103,7 +103,7 @@ export async function renderResume(req, res) {
         .json({ message: `Template not found`, success: false });
     res.setHeader("Content-Type", "text/html");
     return res.render(resume.filePath, {
-      resume: resumeData.toObject(),
+      resume: resumeData,
     });
   } catch (error) {
     res.status(500).json({
@@ -128,7 +128,6 @@ export async function downloadResume(req, res) {
     }
 
     const filePath = resume.filePath;
-    console.log(filePath)
 
     res.render(filePath, {resume: resumeData}, async (err, html) => {
       if (err) {
