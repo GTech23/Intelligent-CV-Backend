@@ -9,12 +9,14 @@ import path from "path";
 import url from "url";
 
 config();
+
 const PORT = process.env.PORT;
 
 import authRouter from "./src/routes/Auth.js";
 import resumeRouter from "./src/routes/Resume.js";
 import templateRouter from "./src/routes/Templates.js";
 import corsOptions from "./src/config/corsConfig.js";
+import aiRouter from "./src/routes/Gemini.js";
 
 const app = express();
 await connectDB();
@@ -47,10 +49,7 @@ app.get("/", (req, res) => {
 app.use("/api/auth", authRouter);
 app.use("/api/resume", resumeRouter);
 app.use("/api/template", templateRouter);
-
-app.get('/view', (req, res) => {
-  res.render('majestic-red.hbs')
-})
+app.use("/api/ai",  aiRouter);
 
 app.use((err, req, res, next) => {
   res.status(500).json({ error: err.message });
