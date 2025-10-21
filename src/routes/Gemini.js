@@ -1,7 +1,8 @@
 import express from 'express';
-import { generateBulletPoint } from '../controllers/gemini.controller.js';
+import { generateBulletPoint, generateSummary } from '../controllers/gemini.controller.js';
 
 const aiRouter = express.Router();
 
 aiRouter.post('/', generateBulletPoint);
+aiRouter.post('/summary', generateSummary);
 export default aiRouter;
