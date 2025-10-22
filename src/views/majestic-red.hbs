@@ -8,34 +8,150 @@
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Fjalla+One&display=swap');
     * { margin: 0; padding: 0; box-sizing: border-box; }
+
     body {
       font-family: 'Fjalla One', Tahoma, Geneva, Verdana, sans-serif;
       background-color: #f5f5f5;
     }
-    a { font-size: 13px; color: #555; }
-    .resume { max-width: 210mm; min-height: 297mm; margin: 0 auto; background: white; }
-    .header { color: white; padding: 50px 60px; text-align: center; }
-    .header h1 { font-size: 42px; font-weight: 300; letter-spacing: 2px; text-transform: uppercase; color: black; }
-    .header .job-title { font-size: 16px; font-weight: 400; letter-spacing: 3px; text-transform: uppercase; }
-    .content { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; padding: 50px 60px; }
-    .section { margin-bottom: 35px; }
+
+    a { font-size: 13px; color: #555; text-decoration: none; }
+
+    .resume {
+      max-width: 210mm;
+      min-height: 297mm;
+      margin: 0 auto;
+      background: white;
+    }
+
+    /* HEADER */
+    .header {
+      text-align: center;
+      padding: 50px 60px 30px;
+      color: #000;
+      border-bottom: 3px solid #c85a54;
+    }
+
+    .header h1 {
+      font-size: 40px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    .header .job-title {
+      font-size: 15px;
+      letter-spacing: 2px;
+      color: #555;
+      text-transform: uppercase;
+    }
+
+    /* CONTENT */
+    .content {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      padding: 40px 60px;
+    }
+
+    .section {
+      margin-bottom: 35px;
+    }
+
     .section-title {
-      color: #c85a54; font-size: 14px; font-weight: 600; letter-spacing: 1.5px;
-      text-transform: uppercase; margin-bottom: 20px; padding-bottom: 8px;
+      color: #c85a54;
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 15px;
+      padding-bottom: 6px;
       border-bottom: 2px solid #c85a54;
     }
-    .job, .education-item, .cert-item { margin-bottom: 25px; }
-    .job-title { font-weight: 600; font-size: 15px; color: #333; margin-bottom: 3px; }
-    .job-details { font-size: 13px; color: #666; margin-bottom: 10px; }
-    ul { margin-left: 20px; margin-top: 8px; }
-    li { font-size: 13px; line-height: 1.6; color: #555; margin-bottom: 8px; }
-    .summary-text { font-size: 14px; line-height: 1.7; color: #555; text-align: justify; }
-    .skills-list { list-style: none; margin-left: 0; }
-    .skills-list li { padding-left: 20px; position: relative; margin-bottom: 10px; }
-    .skills-list li:before { content: "•"; color: #c85a54; font-weight: bold; position: absolute; left: 0; }
-    .avatar { width: 120px; height: 120px; border-radius: 8px; object-fit: cover; margin: 0 auto 12px auto; }
-    .contact-item { font-size: 13px; color: #444; margin-bottom: 8px; }
-    .reference-item { margin-bottom: 12px; font-size: 13px; color: #444; }
+
+    /* SHARED STYLES for Education, Jobs, Certifications */
+    .entry {
+      margin-bottom: 20px;
+      font-size: 13px;
+      color: #333;
+    }
+
+    .entry-title {
+      font-weight: 600;
+      font-size: 15px;
+      color: #333;
+      margin-bottom: 3px;
+    }
+
+    .entry-subtitle {
+      color: #555;
+      font-size: 13px;
+      margin-bottom: 4px;
+    }
+
+    .entry-date {
+      font-size: 12px;
+      color: #777;
+      margin-bottom: 8px;
+    }
+
+    .entry ul {
+      margin-left: 20px;
+      margin-top: 5px;
+    }
+
+    .entry li {
+      font-size: 13px;
+      line-height: 1.6;
+      color: #555;
+      margin-bottom: 5px;
+    }
+
+    .summary-text {
+      font-size: 14px;
+      line-height: 1.7;
+      color: #555;
+      text-align: justify;
+    }
+
+    .skills-list {
+      list-style: none;
+      margin-left: 0;
+    }
+
+    .skills-list li {
+      padding-left: 20px;
+      position: relative;
+      margin-bottom: 10px;
+    }
+
+    .skills-list li:before {
+      content: "•";
+      color: #c85a54;
+      font-weight: bold;
+      position: absolute;
+      left: 0;
+    }
+
+    .contact-item, .reference-item {
+      font-size: 13px;
+      color: #444;
+      margin-bottom: 8px;
+    }
+
+    .reference-item .reference-name {
+      font-weight: 600;
+      margin-bottom: 3px;
+    }
+
+    .avatar {
+      width: 120px;
+      height: 120px;
+      border-radius: 8px;
+      object-fit: cover;
+      margin: 0 auto 12px auto;
+      display: block;
+    }
   </style>
 </head>
 
@@ -75,11 +191,11 @@
         <div class="section">
           <h2 class="section-title">Education</h2>
           {{#each resume.education}}
-          <div class="education-item">
-            <div class="degree">{{#if degree}}{{degree}}{{else}}Education{{/if}}{{#if fieldOfStudy}} in {{fieldOfStudy}}{{/if}}</div>
-            <div class="school">{{#if school}}{{school}}{{/if}}{{#if location}} - {{location}}{{/if}}</div>
+          <div class="entry">
+            <div class="entry-title">{{#if degree}}{{degree}}{{else}}Education{{/if}}{{#if fieldOfStudy}} in {{fieldOfStudy}}{{/if}}</div>
+            <div class="entry-subtitle">{{#if school}}{{school}}{{/if}}{{#if location}} - {{location}}{{/if}}</div>
             {{#unless removeGraduationDate}}
-              <div class="date">
+              <div class="entry-date">
                 {{#if graduationMonth}}{{graduationMonth}} {{/if}}{{#if graduationYear}}{{graduationYear}}{{/if}}
               </div>
             {{/unless}}
@@ -95,25 +211,20 @@
         <div class="section">
           <h2 class="section-title">Work Experience</h2>
           {{#each resume.experience}}
-          <div class="job">
-            <div class="job-header">
-              <div class="job-title">{{#if position}}{{position}}{{else}}Role{{/if}}</div>
-              <div class="job-details">
-                <span class="date">
-                  {{#if startMonth}}{{startMonth}} {{/if}}{{#if startYear}}{{startYear}}{{/if}}
-                  {{#if isCurrentlyWorking}}
-                    — Present
-                  {{else}}
-                    {{#if endMonth}} — {{endMonth}}{{/if}} {{#if endYear}}{{endYear}}{{/if}}
-                  {{/if}}
-                </span>
-                {{#if company}} | <span class="company">{{company}}</span>{{/if}}
-                <span class="location">
-                  {{#if city}} , {{city}}{{/if}}{{#if province}} , {{province}}{{/if}}{{#if country}} , {{country}}{{/if}}
-                </span>
-              </div>
+          <div class="entry">
+            <div class="entry-title">{{#if position}}{{position}}{{else}}Role{{/if}}</div>
+            <div class="entry-subtitle">
+              {{#if company}}{{company}}{{/if}}
+              {{#if city}}, {{city}}{{/if}}{{#if province}}, {{province}}{{/if}}{{#if country}}, {{country}}{{/if}}
             </div>
-
+            <div class="entry-date">
+              {{#if startMonth}}{{startMonth}} {{/if}}{{#if startYear}}{{startYear}}{{/if}}
+              {{#if isCurrentlyWorking}}
+                — Present
+              {{else}}
+                {{#if endMonth}} — {{endMonth}}{{/if}} {{#if endYear}}{{endYear}}{{/if}}
+              {{/if}}
+            </div>
             {{#if responsibilities}}
               {{#if responsibilities.length}}
               <ul>
@@ -168,12 +279,13 @@
         <div class="section">
           <h2 class="section-title">Certifications</h2>
           {{#each resume.certifications}}
-          <div class="cert-item">{{this}}</div>
+          <div class="entry">{{this}}</div>
           {{/each}}
         </div>
         {{/if}}
         {{/if}}
 
+        <!-- References -->
         <div class="section">
           <h2 class="section-title">References</h2>
           {{#if resume.references}}
@@ -193,9 +305,7 @@
           {{else}}
             <p>Available upon request.</p>
           {{/if}}
-
         </div>
-
       </div>
     </div>
   </div>
