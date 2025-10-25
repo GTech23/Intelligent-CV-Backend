@@ -14,7 +14,7 @@
       background-color: #f5f5f5;
     }
 
-    a { font-size: 13px; color: #555; text-decoration: none; }
+    a { font-size: 13px; color: #555; text-decoration: underline; }
 
     .resume {
       max-width: 210mm;
@@ -32,7 +32,7 @@
     }
 
     .header h1 {
-      font-size: 40px;
+      font-size: 35px;
       font-weight: 600;
       letter-spacing: 2px;
       text-transform: uppercase;
@@ -55,7 +55,7 @@
     }
 
     .section {
-      margin-bottom: 35px;
+      margin-bottom: 25px;
     }
 
     .section-title {
@@ -71,15 +71,15 @@
 
     /* SHARED STYLES for Education, Jobs, Certifications */
     .entry {
-      margin-bottom: 20px;
+      margin-bottom: 14px;
       font-size: 13px;
-      color: #333;
+      color: #000;
     }
 
     .entry-title {
       font-weight: 600;
       font-size: 15px;
-      color: #333;
+      color: #000;
       margin-bottom: 3px;
     }
 
@@ -115,22 +115,13 @@
     }
 
     .skills-list {
-      list-style: none;
       margin-left: 0;
     }
 
     .skills-list li {
-      padding-left: 20px;
       position: relative;
       margin-bottom: 10px;
-    }
-
-    .skills-list li:before {
-      content: "•";
-      color: #c85a54;
-      font-weight: bold;
-      position: absolute;
-      left: 0;
+      list-style-position: inside;
     }
 
     .contact-item, .reference-item {
@@ -144,14 +135,6 @@
       margin-bottom: 3px;
     }
 
-    .avatar {
-      width: 120px;
-      height: 120px;
-      border-radius: 8px;
-      object-fit: cover;
-      margin: 0 auto 12px auto;
-      display: block;
-    }
   </style>
 </head>
 

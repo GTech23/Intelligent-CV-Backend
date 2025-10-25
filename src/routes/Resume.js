@@ -19,7 +19,7 @@ resumeRouter.get("/:id", authorizeAuth, getResume);
 resumeRouter.put("/:id", authorizeAuth, updateResume);
 resumeRouter.delete("/:id", authorizeAuth, deleteResume);
 
-resumeRouter.post("/:id/view", authorizeAuth, renderResume);
-resumeRouter.post("/:id/download", authorizeAuth, downloadResume);
+resumeRouter.post("/:id/view", renderResume);
+resumeRouter.post("/:id/download", downloadResume);
 
 export default resumeRouter;
