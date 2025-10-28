@@ -15,7 +15,6 @@ const resumeSchema = new mongoose.Schema(
     },
 
     personal: {
-      photoUrl: { type: String },
       firstName: { type: String, required: true },
       lastName: { type: String, required: true },
       title: { type: String },
@@ -26,8 +25,6 @@ const resumeSchema = new mongoose.Schema(
       city: { type: String },
       state: { type: String },
       postalCode: { type: String },
-      linkedin: { type: String },
-      website: { type: String },
       summary: { type: String },
     },
 
@@ -62,12 +59,6 @@ const resumeSchema = new mongoose.Schema(
     skills: [String],
 
     certifications: [String],
-
-    languages: [
-      {
-        name: String,
-      },
-    ],
 
     references: [
       {

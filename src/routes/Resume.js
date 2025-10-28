@@ -20,6 +20,6 @@ resumeRouter.put("/:id", authorizeAuth, updateResume);
 resumeRouter.delete("/:id", authorizeAuth, deleteResume);
 
 resumeRouter.post("/:id/view", renderResume);
-resumeRouter.post("/:id/download", downloadResume);
+resumeRouter.post("/:id/download", authorizeAuth, downloadResume);
 
 export default resumeRouter;

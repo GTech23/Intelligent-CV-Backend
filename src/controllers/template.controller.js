@@ -1,4 +1,3 @@
-
 import ResumeTemplate from "../models/ResumeTemplate.js";
 
 export async function createTemplate(req, res,){
@@ -9,7 +8,7 @@ export async function createTemplate(req, res,){
 }
 
 
-export async function getTemplates(req, res) {
+export async function getTemplates(_, res) {
     const templates = await ResumeTemplate.find();
     if(templates.length === 0 || !templates) return res.status(404).json({message: `Templates not found`});
 

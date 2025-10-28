@@ -522,9 +522,8 @@ This project is licensed under the MIT License.
 
 **GTech23**
 
-*   LinkedIn: [Your LinkedIn Profile](https://linkedin.com/in/gtech23)
-*   Twitter: [Your Twitter Handle](https://twitter.com/gtech23)
-*   Portfolio: [Your Portfolio Site](https://gtech23.dev)
+*   Twitter: [Your Twitter Handle](https://twitter.com/GodstimePious)
+*   Portfolio: [Your Portfolio Site](https://godstime-indol.vercel.app)
 
 ---
 

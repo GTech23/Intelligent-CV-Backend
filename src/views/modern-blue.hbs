@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>Godstime Pious - Junior Backend Developer Resume</title>
+    <title>{{resume.personal.firstName}} {{resume.personal.lastName}} - {{resume.personal.title}}</title>
     <style>
       @import url('https://fonts.googleapis.com/css2?family=Cambo&display=swap');
       body {
@@ -28,10 +28,7 @@
       .resume-container {
         max-width: 210mm;
         width: 100%;
-        padding: 10mm;
-        height: 297mm;
         page-break-inside: avoid;
-        font-family: Arial, Helvetica, sans-serif;
       }
       .bold {
         font-weight: bold;
@@ -110,34 +107,23 @@
       <!-- Header -->
       <section class="header">
         <div class="profile-container">
-          <h2 class="profile-name">Godstime Pious</h2>
-          <p>Junior Backend Developer</p>
+          <h2 class="profile-name">{{resume.personal.firstName}} {{resume.personal.lastName}}</h2>
+          <p>{{resume.personal.title}}</p>
         </div>
       </section>
 
       <!-- Contact -->
       <section>
         <div class="social-link-container">
-          <p>09130327299</p>
-          <p>godstimepious33@gmail.com</p>
-          <p>Port Harcourt, Rivers State, Nigeria</p>
-          <p>50011</p>
-          <a href="https://godstimeweb.vercel.app" target="_blank">Portfolio</a>
-          <a href="https://x.com/GodstimePious" target="_blank">Twitter</a>
-          <a href="https://linkedin.com/godstime" target="_blank">LinkedIn</a>
+          <p>{{resume.personal.phone}}</p>
+          <p>{{resume.personal.email}}</p>
+          <p>{{resume.personal.city}}, {{personal.state}}, {{personal.country}}</p>
+          <p>{{resume.personal.postalCode}}</p>
         </div>
       </section>
-
       <!-- Summary -->
       <section>
-        <p class="summary">
-          Motivated and detail-oriented junior backend developer with a strong
-          foundation in server-side development, databases, and API integration.
-          Eager to apply technical skills and problem-solving abilities in a
-          collaborative environment to build scalable and efficient backend
-          systems. Looking to grow within a forward-thinking company where I can
-          contribute to meaningful projects and continue developing my expertise.
-        </p>
+        <p class="summary">{{resume.personal.summary}}</p>
       </section>
 
       <!-- Experience -->
@@ -147,65 +133,27 @@
           <div class="ruler"></div>
         </div>
 
+        {{#each resume.experience}}
         <div class="experience-container">
           <div class="experience-header">
             <div>
-              <h3 class="company">KONDIPRESS LLC</h3>
-              <p class="title">Backend Developer</p>
+              <h3 class="company">{{company}}</h3>
+              <p class="title">{{position}}</p>
             </div>
             <div style="text-align: right">
-              <p class="location">Port Harcourt, Rivers</p>
-              <p class="title">April 2024 - Present</p>
+              <p class="location">{{city}}, {{province}}, {{country}}</p>
+              <p class="title">{{startMonth}} {{startYear}} - {{#if isCurrentlyWorking}}Present{{else}}{{endMonth}} {{endYear}}{{/if}}</p>
             </div>
           </div>
           <div class="duties">
             <ul>
-              <li>Write clean, efficient, and reusable code using backend languages</li>
-              <li>Create and maintain RESTful or GraphQL APIs to connect frontend and backend</li>
-              <li>Participate in discussions around application architecture and data modeling</li>
+              {{#each responsibilities}}
+                <li>{{this}}</li>
+              {{/each}}
             </ul>
           </div>
         </div>
-
-        <div class="experience-container">
-          <div class="experience-header">
-            <div>
-              <h3 class="company">BLESSED COMPUTER SERVICES</h3>
-              <p class="title">Graphics Designer</p>
-            </div>
-            <div style="text-align: right">
-              <p class="location">Port Harcourt, Rivers</p>
-              <p class="title">September 2020 - January 2024</p>
-            </div>
-          </div>
-          <div class="duties">
-            <ul>
-              <li>Develop creative ideas for digital and print media campaigns</li>
-              <li>Export and format artwork for printing, websites, and social media</li>
-              <li>Collaborate with developers to design user interfaces and experiences</li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="experience-container">
-          <div class="experience-header">
-            <div>
-              <h3 class="company">DITEX COMPUTER SERVICES</h3>
-              <p class="title">Graphics Designer</p>
-            </div>
-            <div style="text-align: right">
-              <p class="location">Port Harcourt, Rivers</p>
-              <p class="title">May 2019 - August 2020</p>
-            </div>
-          </div>
-          <div class="duties">
-            <ul>
-              <li>Designed and updated branding materials for local clients</li>
-              <li>Prepared designs for digital platforms and print delivery</li>
-              <li>Worked with developers on UI design for web projects</li>
-            </ul>
-          </div>
-        </div>
+        {{/each}}
       </section>
 
       <!-- Education -->
@@ -215,21 +163,17 @@
           <div class="ruler"></div>
         </div>
 
+        {{#each resume.education}}
         <div class="education-container">
           <div>
-            <h3 class="company">Bachelor of Science in Software Engineering</h3>
-            <p>Rivers State University, <span class="bold">Port Harcourt</span></p>
+            <h3 class="company">{{degree}} in {{fieldOfStudy}}</h3>
+            <p>{{school}}, <span class="bold">{{location}}</span></p>
           </div>
-          <p style="text-align: right" class="title">September 2019 – September 2023</p>
+          {{#unless removeGraduationDate}}
+          <p style="text-align: right" class="title">{{graduationMonth}} {{graduationYear}}</p>
+          {{/unless}}
         </div>
-
-        <div class="education-container">
-          <div>
-            <h3 class="company">West African Examination Council</h3>
-            <p>Adonis International School, <span class="bold">Port Harcourt</span></p>
-          </div>
-          <p style="text-align: right" class="title">February 2015 – July 2019</p>
-        </div>
+        {{/each}}
       </section>
 
       <!-- Skills -->
@@ -240,11 +184,9 @@
         </div>
         <div class="skill-container">
           <ul>
-            <li>Proficient in Microsoft Office (Word, Excel, PowerPoint, Outlook, Project)</li>
-            <li>Fluent in English, Spanish, and French</li>
-            <li>RESTful API development (Express, Node.js)</li>
-            <li>Database Management (MongoDB, MySQL)</li>
-            <li>Version control with Git and GitHub</li>
+            {{#each resume.skills}}
+              <li>{{this}}</li>
+            {{/each}}
           </ul>
         </div>
       </section>
@@ -257,9 +199,28 @@
         </div>
         <div class="skill-container">
           <ul>
-            <li>Meta Back-End Developer Certificate (Coursera)</li>
-            <li>Back-End Developer Career Path (Codecademy)</li>
-            <li>Full Stack Open (University of Helsinki)</li>
+            {{#each resume.certifications}}
+              <li>{{this}}</li>
+            {{/each}}
+          </ul>
+        </div>
+      </section>
+
+      <!-- References -->
+      <section id="references">
+        <div class="section-header">
+          <h2 class="section-title">REFERENCES</h2>
+          <div class="ruler"></div>
+        </div>
+        <div class="skill-container">
+          <ul>
+            {{#if resume.references}}
+              {{#each references}}
+                <li>{{firstName}} {{lastName}} - {{jobTitle}}, {{company}}. Email: {{email}}, Phone: {{phone}} ({{relationshipStatus}})</li>
+              {{/each}}
+            {{else}}
+              <li>Available upon request</li>
+            {{/if}}
           </ul>
         </div>
       </section>

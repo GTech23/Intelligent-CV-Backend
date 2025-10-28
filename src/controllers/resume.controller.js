@@ -71,7 +71,7 @@ export async function updateResume(req, res) {
   } catch (error) {
     res
       .status(500)
-      .json({ error: `Error f00etching resume ${error}`, success: false });
+      .json({ error: `Error fetching resume ${error}`, success: false });
   }
 }
 
@@ -154,7 +154,7 @@ export async function downloadResume(req, res) {
         
         res.set({
           "Content-Type": "application/pdf",
-          "Content-Disposition": 'attachment; filename="resume.pdf"',
+          "Content-Disposition": `attachment; filename="resume.pdf"`,
         });
 
         return res.send(pdfBuffer);
