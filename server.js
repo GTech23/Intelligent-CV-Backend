@@ -17,6 +17,7 @@ import resumeRouter from "./src/routes/Resume.js";
 import templateRouter from "./src/routes/Templates.js";
 import corsOptions from "./src/config/corsConfig.js";
 import aiRouter from "./src/routes/Gemini.js";
+import rateLimiter from "./src/middlewares/rateLimiter.js";
 
 const app = express();
 await connectDB();
@@ -33,6 +34,7 @@ const __dirname = path.dirname(__filename);
 app.use(helmet());
 app.use(cookieParser());
 app.use(express.json());
+app.use(rateLimiter())
 // app.use(logger);
 
 app.engine("hbs", hbs.engine);
