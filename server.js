@@ -42,12 +42,9 @@ app.set("view engine", "hbs");
 app.set("views", path.join(__dirname, "src", "views"));
 // routes
 app.get("/", (req, res) => {
-  res.send(`
-            <h3>Welcome to Intelligent CV Backend</h3>
-            <p>Visit our  <a href=""> documentation site </a> to know more about the project, and consume our API </p>
-        
-        `);
+  res.send(`<h3>Welcome to Intelligent CV Backend</h3>`);
 });
+
 app.use("/api/auth", authRouter);
 app.use("/api/resume", resumeRouter);
 app.use("/api/template", templateRouter);

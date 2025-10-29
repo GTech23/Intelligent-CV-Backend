@@ -4,13 +4,12 @@ import User from "../models/User.js";
 import userSchema from "../validation/user-validator.js";
 
 export async function register(req, res) {
-  const {error, value} = userSchema.validate(req.body, {abortEarly: false});
+  const {error, value} = userSchema.validate(req.body, {abortEarly: true});
 
   if (error) {
       return res.status(400).json({
         success: false,
-        message: "Validation failed",
-        details: error.details.map(d => d.message),
+        message: error.details.map(d => d.message),
       });
     }
 
@@ -20,7 +19,7 @@ export async function register(req, res) {
     const hash = await bcrypt.hash(password, 10);
     const newUser = new User({ username, email, password: hash });
     await newUser.save();
-    res.status(201).json({ message: `User created successfully` });
+    res.status(201).json({ success: true, message: `User created successfully` });
   } catch (err) {
     console.error(err.message);
     if(err.code === 11000){
@@ -40,7 +39,7 @@ export async function login(req, res) {
     const user = await User.findOne({ email });
     const isPasswordMatch = bcrypt.compareSync(password, user?.password || "");
     if (!user || !isPasswordMatch)
-      return res.status(400).json({ message: `Invalid credentials` });
+      return res.status(400).json({ success: false, message: `Invalid credentials` });
 
     const token = jwt.sign(
       { id: user._id, email: user.email, role: user.role, username: user.username },
@@ -62,5 +61,6 @@ export async function login(req, res) {
 
 export async function getAuthProfile(req, res) {
   const user = req.user;
-  res.status(200).json({ message: user });
+  console.log(user);
+  res.status(200).json({ data: user });
 }

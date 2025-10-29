@@ -1,7 +1,7 @@
 const allowedOrigins = [
   "http://localhost:5173",
   "http://localhost:3000",
-  "https://intelligent-cv-backend.onrender.com",
+  `${process.env.BACKEND_URL}`,
   "https://verbose-barnacle-979jx97qg9ggcpw74-5173.app.github.dev",
   "https://intelligent-cv.vercel.app",
 ];
