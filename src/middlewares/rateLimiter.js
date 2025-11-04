@@ -10,5 +10,4 @@ const rateLimiter = () => {
     message: `Too many request, please try again later`
   })
 }
-
 export default rateLimiter

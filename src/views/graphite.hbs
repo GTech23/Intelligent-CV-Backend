@@ -209,8 +209,16 @@
       {{#if resume.references.length}}
         {{#each resume.references}}
           <p><strong>{{firstName}} {{lastName}}</strong> — {{jobTitle}}, {{company}}</p>
-          <p>Email: {{email}} | Phone: {{phone}}</p>
-          <p>Relationship: {{relationshipStatus}}</p>
+          {{#if email}}
+            <p>Email: {{email}}</p>
+          {{/if}}
+          {{#if phone}}
+            <p>Phone: {{phone}}</p>
+          {{/if}}
+
+          {{#if relationshipStatus}}
+            <p>Relationship: {{relationshipStatus}}</p>
+          {{/if}}
         {{/each}}
       {{else}}
         <p>Available upon request.</p>

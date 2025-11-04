@@ -8,6 +8,8 @@ const userSchema = new mongoose.Schema(
     role: { type: String, enum: ["user", "admin"], default: "user" },
     subscriptionPlan: { type: String, enum: ["freemium", "premium"] },
     isPremium: { type: Boolean, default: false },
+    otp: { type: String },
+    otpExpiry: { type: Date },
   },
   { timestamps: true }
 );
