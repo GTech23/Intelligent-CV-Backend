@@ -102,7 +102,7 @@ export async function renderResume(req, res) {
         .status(404)
         .json({ message: `Template not found`, success: false });
     res.setHeader("Content-Type", "text/html");
-    return res.render(resume.filePath, {
+    return res.render("corporate", {
       resume: resumeData,
     });
   } catch (error) {
@@ -129,7 +129,7 @@ export async function downloadResume(req, res) {
 
     const filePath = resume.filePath;
 
-    res.render(filePath, {resume: resumeData}, async (err, html) => {
+    res.render("filePath", {resume: resumeData}, async (err, html) => {
       if (err) {
         console.error("Handlebars render error:", err);
         return res
