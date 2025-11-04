@@ -59,7 +59,7 @@ app.use((err, req, res, next) => {
 
 // Setup cron job to ping server every 14 minutes
 cron.schedule('*/14 * * * *', () => {
-  https.get(process.env.BASE_URL, (res) => {
+  https.get(process.env.BACKEND_URL, (res) => {
     console.log('Server pinged successfully at:', new Date().toISOString());
   }).on('error', (err) => {
     console.error('Error pinging server:', err.message);
@@ -67,6 +67,6 @@ cron.schedule('*/14 * * * *', () => {
 });
 
 app.listen(PORT, () => {
-  console.log(`Server connected to ${process.env.BASE_URL}:${PORT}`);
+  console.log(`Server connected to ${process.env.BACKEND_URL}:${PORT}`);
   console.log('Cron job setup to ping server every 14 minutes');
 });
