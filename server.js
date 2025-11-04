@@ -7,6 +7,8 @@ import connectDB from "./src/config/db.js";
 import exphbs from "express-handlebars";
 import path from "path";
 import url from "url";
+import cron from 'node-cron';
+import https from 'https';
 
 config();
 
@@ -54,6 +56,17 @@ app.use((err, req, res, next) => {
   res.status(500).json({ error: err.message });
   next(err);
 });
+
+// Setup cron job to ping server every 14 minutes
+cron.schedule('*/14 * * * *', () => {
+  https.get(process.env.BASE_URL, (res) => {
+    console.log('Server pinged successfully at:', new Date().toISOString());
+  }).on('error', (err) => {
+    console.error('Error pinging server:', err.message);
+  });
+});
+
 app.listen(PORT, () => {
   console.log(`Server connected to ${process.env.BASE_URL}:${PORT}`);
+  console.log('Cron job setup to ping server every 14 minutes');
 });
