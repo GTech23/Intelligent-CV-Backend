@@ -6,7 +6,7 @@ const authRouter = Router();
 authRouter.post("/register", register);
 authRouter.post("/login", login);
 authRouter.get('/profile', authorizeAuth, getAuthProfile);
-authRouter.post('/request_reset', authorizeAuth, requestPasswordReset);
-authRouter.post('/verify-otp', authorizeAuth, verifyOtp);
+authRouter.post('/request_reset', requestPasswordReset);
+authRouter.post('/verify-otp',  verifyOtp);
 
 export default authRouter;
