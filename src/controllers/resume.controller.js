@@ -132,7 +132,7 @@ export async function downloadResume(req, res) {
 
     const filePath = resume.filePath;
 
-    res.render("filePath", { resume: resumeData }, async (err, html) => {
+    res.render(filePath, { resume: resumeData }, async (err, html) => {
       if (err) {
         console.error("Handlebars render error:", err);
         return res
