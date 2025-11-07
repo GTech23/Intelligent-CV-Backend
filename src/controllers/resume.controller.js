@@ -102,7 +102,7 @@ export async function renderResume(req, res) {
         .status(404)
         .json({ message: `Template not found`, success: false });
     res.setHeader("Content-Type", "text/html");
-    return res.render("corporate", {
+    return res.render(resume.filePath, {
       resume: resumeData,
     });
   } catch (error) {
@@ -115,10 +115,13 @@ export async function renderResume(req, res) {
 
 export async function downloadResume(req, res) {
   const templateId = req.params.id;
- const resumeData = req.body
+  const resumeData = req.body;
+
+  if (!req.user) return res.status(402).json({ success: false, message: `You need to be logged in to download your resume` })
   try {
     const resume = await ResumeTemplate.findOne({
-      _id: templateId, })
+      _id: templateId,
+    })
 
     if (!resume) {
       return res.status(404).json({
@@ -129,7 +132,7 @@ export async function downloadResume(req, res) {
 
     const filePath = resume.filePath;
 
-    res.render("filePath", {resume: resumeData}, async (err, html) => {
+    res.render("filePath", { resume: resumeData }, async (err, html) => {
       if (err) {
         console.error("Handlebars render error:", err);
         return res
@@ -151,7 +154,7 @@ export async function downloadResume(req, res) {
         };
 
         const pdfBuffer = await pdf.default.generatePdf(file, options);
-        
+
         res.set({
           "Content-Type": "application/pdf",
           "Content-Disposition": `attachment; filename="resume.pdf"`,
@@ -165,7 +168,7 @@ export async function downloadResume(req, res) {
           .json({ success: false, message: "PDF generation failed" });
       }
     });
-  
+
   } catch (error) {
     console.error("Error generating PDF:", error);
     if (error.name === "CastError") {
