@@ -8,8 +8,6 @@ import exphbs from "express-handlebars";
 import path from "path";
 import url from "url";
 import cron from 'node-cron';
-import https from 'https';
-
 config();
 
 const PORT = process.env.PORT;
@@ -58,11 +56,11 @@ app.use((err, req, res, next) => {
 });
 
 // Setup cron job to ping server every 14 minutes
-cron.schedule('*/14 * * * *', () => {
-  https.get(process.env.BACKEND_URL, (res) => {
-    console.log('Server pinged successfully at:', new Date().toISOString());
-  }).on('error', (err) => {
-    console.error('Error pinging server:', err.message);
+cron.schedule('*/5 * * * *', () => {
+  fetch(`${process.env.BACKEND_URL}/`).then(() => {
+    console.log('Server pinged successfully to prevent idling.');
+  }).catch((err) => {
+    console.error('Error pinging server:', err);
   });
 });
 

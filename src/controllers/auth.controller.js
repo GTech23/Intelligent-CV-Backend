@@ -2,7 +2,6 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import User from "../models/User.js";
 import userSchema from "../validation/user-validator.js";
-import { sendEmail } from "../../services/email.js";
 
 export async function register(req, res) {
   const {error, value} = userSchema.validate(req.body, {abortEarly: true});
@@ -20,7 +19,6 @@ export async function register(req, res) {
     const hash = await bcrypt.hash(password, 10);
     const newUser = new User({ username, email, password: hash });
     await newUser.save();
-    sendEmail(email, 'Welcome to Intelligent CV', `Hello ${username},\n\nThank you for registering at Intelligent CV! We're excited to have you on board.\n\nBest regards,\nThe Intelligent CV Team`);
     res.status(201).json({ success: true, message: `User created successfully` });
   } catch (err) {
     console.error(err.message);
@@ -81,7 +79,6 @@ export async function requestPasswordReset(req, res){
   user.otpExpiry = Date.now() + 15 * 60 * 1000;
   await user.save();
   res.status(200).json({ success: true, message: `You will receive an OTP to this email ${email} if the user exist` });
-  await sendEmail(email, 'Password Reset OTP', `Hello ${user.username},\n\nYour OTP for password reset is: ${otp}\nThis OTP is valid for 15 minutes.\n\nIf you did not request a password reset, please ignore this email.\n\nBest regards,\nThe Intelligent CV Team`);
 }
 
 export async function verifyOtp(req, res){
