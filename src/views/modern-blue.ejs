@@ -2,15 +2,20 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>{{resume.personal.firstName}} {{resume.personal.lastName}} - {{resume.personal.title}}</title>
+    <title>
+      <%= resume.personal.firstName %> <%= resume.personal.lastName %> - <%=
+      resume.personal.title %>
+    </title>
     <style>
-      @import url('https://fonts.googleapis.com/css2?family=Cambo&display=swap');
+      @import url("https://fonts.googleapis.com/css2?family=Cambo&display=swap");
+
       body {
         display: flex;
         justify-content: center;
         width: 100%;
         font-size: 13pt;
       }
+
       * {
         margin: 0;
         padding: 0;
@@ -18,25 +23,32 @@
         font-family: Cambo, Arial, sans-serif;
         font-size: 12pt;
       }
+
       a {
         color: #333;
       }
+
       li {
         list-style-position: inside;
         margin-bottom: 5px;
       }
+
       .resume-container {
         max-width: 210mm;
         width: 100%;
+        padding: 10mm;
         page-break-inside: avoid;
       }
+
       .bold {
         font-weight: bold;
       }
+
       section {
         margin-bottom: 20px;
         page-break-inside: avoid;
       }
+
       .profile-container {
         display: flex;
         flex-direction: column;
@@ -44,11 +56,13 @@
         align-items: center;
         gap: 8pt;
       }
+
       .profile-name {
         font-size: 30pt;
         font-weight: bold;
         color: rgb(3, 76, 158);
       }
+
       .social-link-container {
         border-top: 2pt solid #034c9e;
         border-bottom: 2pt solid #034c9e;
@@ -59,25 +73,30 @@
         gap: 4pt;
         align-items: center;
       }
+
       .summary {
         line-height: 16pt;
         text-align: justify;
         font-style: italic;
       }
+
       .section-header {
         display: flex;
         flex-direction: column;
         gap: 10px;
       }
+
       .section-title {
         color: #034c9e;
         font-weight: 700;
       }
+
       .ruler {
         height: 3px;
         width: 100%;
         background-color: #034c9e;
       }
+
       .experience-header,
       .education-container {
         display: flex;
@@ -85,45 +104,55 @@
         align-items: center;
         margin: 10px 0;
       }
+
       .skill-container {
         margin: 8px 0;
       }
+
       .company {
         font-weight: 700;
       }
+
       .title {
         font-style: italic;
       }
+
       .location {
         font-weight: 700;
       }
+
       .duties {
         margin-left: 30px;
       }
     </style>
   </head>
+
   <body>
     <div class="resume-container">
       <!-- Header -->
       <section class="header">
         <div class="profile-container">
-          <h2 class="profile-name">{{resume.personal.firstName}} {{resume.personal.lastName}}</h2>
-          <p>{{resume.personal.title}}</p>
+          <h2 class="profile-name">
+            <%= resume.personal.firstName %> <%= resume.personal.lastName %>
+          </h2>
+          <p><%= resume.personal.title %></p>
+        </div>
+      </section>
+      <section>
+        <div class="social-link-container">
+          <p><%= resume.personal.phone %></p>
+          <p><%= resume.personal.email %></p>
+          <p>
+            <%= resume.personal.city %>, <%= resume.personal.state %>, <%=
+            resume.personal.country %>
+          </p>
+          <p><%= resume.personal.postalCode %></p>
         </div>
       </section>
 
-      <!-- Contact -->
-      <section>
-        <div class="social-link-container">
-          <p>{{resume.personal.phone}}</p>
-          <p>{{resume.personal.email}}</p>
-          <p>{{resume.personal.city}}, {{personal.state}}, {{personal.country}}</p>
-          <p>{{resume.personal.postalCode}}</p>
-        </div>
-      </section>
       <!-- Summary -->
       <section>
-        <p class="summary">{{resume.personal.summary}}</p>
+        <p class="summary"><%= resume.personal.summary %></p>
       </section>
 
       <!-- Experience -->
@@ -133,27 +162,33 @@
           <div class="ruler"></div>
         </div>
 
-        {{#each resume.experience}}
+        <% resume.experience.forEach(exp=> { %>
         <div class="experience-container">
           <div class="experience-header">
             <div>
-              <h3 class="company">{{company}}</h3>
-              <p class="title">{{position}}</p>
+              <h3 class="company"><%= exp.company %></h3>
+              <p class="title"><%= exp.position %></p>
             </div>
             <div style="text-align: right">
-              <p class="location">{{city}}, {{province}}, {{country}}</p>
-              <p class="title">{{startMonth}} {{startYear}} - {{#if isCurrentlyWorking}}Present{{else}}{{endMonth}} {{endYear}}{{/if}}</p>
+              <p class="location">
+                <%= exp.city %>, <%= exp.province %>, <%= exp.country %>
+              </p>
+              <p class="title">
+                <%= exp.startMonth %> <%= exp.startYear %> - <%=
+                exp.isCurrentlyWorking ? 'Present' : exp.endMonth + ' ' +
+                exp.endYear %>
+              </p>
             </div>
           </div>
           <div class="duties">
             <ul>
-              {{#each responsibilities}}
-                <li>{{this}}</li>
-              {{/each}}
+              <% exp.responsibilities.forEach(item=> { %>
+              <li><%= item %></li>
+              <% }) %>
             </ul>
           </div>
         </div>
-        {{/each}}
+        <% }) %>
       </section>
 
       <!-- Education -->
@@ -163,17 +198,23 @@
           <div class="ruler"></div>
         </div>
 
-        {{#each resume.education}}
+        <% resume.education.forEach(edu=> { %>
         <div class="education-container">
           <div>
-            <h3 class="company">{{degree}} in {{fieldOfStudy}}</h3>
-            <p>{{school}}, <span class="bold">{{location}}</span></p>
+            <h3 class="company">
+              <%= edu.degree %> in <%= edu.fieldOfStudy %>
+            </h3>
+            <p>
+              <%= edu.school %>, <span class="bold"> <%= edu.location %> </span>
+            </p>
           </div>
-          {{#unless removeGraduationDate}}
-          <p style="text-align: right" class="title">{{graduationMonth}} {{graduationYear}}</p>
-          {{/unless}}
+          <% if (!edu.removeGraduationDate) { %>
+          <p style="text-align: right" class="title">
+            <%= edu.graduationMonth %> <%= edu.graduationYear %>
+          </p>
+          <% } %>
         </div>
-        {{/each}}
+        <% }) %>
       </section>
 
       <!-- Skills -->
@@ -184,9 +225,9 @@
         </div>
         <div class="skill-container">
           <ul>
-            {{#each resume.skills}}
-              <li>{{this}}</li>
-            {{/each}}
+            <% resume.skills.forEach(skill=> { %>
+            <li><%= skill %></li>
+            <% }) %>
           </ul>
         </div>
       </section>
@@ -199,9 +240,9 @@
         </div>
         <div class="skill-container">
           <ul>
-            {{#each resume.certifications}}
-              <li>{{this}}</li>
-            {{/each}}
+            <% resume.certifications.forEach(cert=> { %>
+            <li><%= cert %></li>
+            <% }) %>
           </ul>
         </div>
       </section>
@@ -213,15 +254,16 @@
           <div class="ruler"></div>
         </div>
         <div class="skill-container">
-          <ul>
-            {{#if resume.references}}
-              {{#each references}}
-                <li>{{firstName}} {{lastName}} - {{jobTitle}}, {{company}}. Email: {{email}}, Phone: {{phone}} ({{relationshipStatus}})</li>
-              {{/each}}
-            {{else}}
-              <li>Available upon request</li>
-            {{/if}}
-          </ul>
+          <% if (resume.references && resume.references.length> 0) { %> <%
+          resume.references.forEach(ref=> { %>
+          <li>
+            <%= ref.firstName %> <%= ref.lastName %> - <%= ref.jobTitle %>, <%=
+            ref.company %>. Email: <%= ref.email %>, Phone: <%= ref.phone %>
+            (<%= ref.relationshipStatus %>)
+          </li>
+          <% }) %> <% } else { %>
+          <li>Available upon request</li>
+          <% } %>
         </div>
       </section>
     </div>

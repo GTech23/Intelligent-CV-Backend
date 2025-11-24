@@ -1,7 +1,5 @@
 import Resume from "../models/Resume.js";
 import ResumeTemplate from "../models/ResumeTemplate.js";
-import * as pdf from "html-pdf-node";
-
 
 export async function createResume(req, res) {
   const body = req.body;
@@ -14,11 +12,12 @@ export async function createResume(req, res) {
     });
 
     await newResume.save();
-    res.status(201).json({ message: `Resume saved successfully`, success: true });
+    res
+      .status(201)
+      .json({ message: `Resume saved successfully`, success: true });
   } catch (e) {
     res.status(500).json({ error: `Error saving resume ${e}`, success: false });
   }
-
 }
 
 export async function getResumes(req, res) {
@@ -97,20 +96,28 @@ export async function deleteResume(req, res) {
 
 export async function renderResume(req, res) {
   const templateId = req.params.id;
-  const resumeData = req.body
+  const resumeData = req.body;
   try {
     const resume = await ResumeTemplate.findOne({
       _id: templateId,
-    })
+    });
 
     if (!resume)
       return res
         .status(404)
         .json({ message: `Template not found`, success: false });
-    res.setHeader("Content-Type", "text/html");
-    return res.render(resume.filePath, {
-      resume: resumeData,
+
+    let templatePath = resume.filePath;
+
+    const htmlContent = await new Promise((resolve, reject) => {
+      req.app.render(templatePath, { resume: resumeData }, (err, html) => {
+        if (err) reject(err);
+        resolve(html);
+      });
     });
+
+    res.setHeader("Content-Type", "text/html");
+    res.send(htmlContent);
   } catch (error) {
     res.status(500).json({
       error: `Error fetching resume, ${error.message}`,
@@ -123,63 +130,46 @@ export async function downloadResume(req, res) {
   const templateId = req.params.id;
   const resumeData = req.body;
 
-  if (!req.user) return res.status(402).json({ success: false, message: `You need to be logged in to download your resume` })
   try {
-    const resume = await ResumeTemplate.findOne({
+    const resumeTemplateDoc = await ResumeTemplate.findOne({
       _id: templateId,
-    })
-
-    if (!resume) {
-      return res.status(404).json({
-        success: false,
-        message: "Resume not found",
-      });
-    }
-
-    const filePath = resume.filePath;
-
-    res.render(filePath, { resume: resumeData }, async (err, html) => {
-      if (err) {
-        console.error("Handlebars render error:", err);
-        return res
-          .status(500)
-          .json({ success: false, message: "Template render failed" });
-      }
-
-      try {
-        const file = { content: html };
-        const options = {
-          format: "A4",
-          printBackground: true,
-          margin: {
-            top: "10mm",
-            bottom: "10mm",
-            left: "10mm",
-            right: "10mm",
-          },
-        };
-
-        const pdfBuffer = await pdf.default.generatePdf(file, options);
-
-        res.set({
-          "Content-Type": "application/pdf",
-          "Content-Disposition": `attachment; filename="resume.pdf"`,
-        });
-
-        return res.send(pdfBuffer);
-      } catch (pdfError) {
-        console.error("PDF generation error:", pdfError);
-        return res
-          .status(500)
-          .json({ success: false, message: "PDF generation failed" });
-      }
     });
 
-  } catch (error) {
-    console.error("Error generating PDF:", error);
-    if (error.name === "CastError") {
-      return res.status(404).json({ error: "Resume not found" });
+    if (!resumeTemplateDoc) {
+      return res
+        .status(404)
+        .json({ message: `Template not found`, success: false });
     }
-    res.status(500).json({ error: "Failed to download resume" });
+
+    const templatePath = resumeTemplateDoc.filePath;
+
+    // Render the EJS template to an HTML string
+    const htmlContent = await new Promise((resolve, reject) => {
+      req.app.render(templatePath, { resume: resumeData }, (err, html) => {
+        if (err) reject(err);
+        resolve(html);
+      });
+    });
+
+    const response = await fetch("https://api.pdfshift.io/v3/convert/pdf", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-API-Key": process.env.PDFSHIFT_API_KEY,
+      },
+      body: JSON.stringify({
+        body: htmlContent,
+      }),
+    });
+
+    const pdfBuffer = await response.arrayBuffer();
+    console.log(htmlContent);
+    res.setHeader("Content-Type", "application/pdf");
+    res.send(pdfBuffer);
+  } catch (error) {
+    res.status(500).json({
+      error: `Error Downloading resume, ${error.message}`,
+      success: false,
+    });
   }
 }

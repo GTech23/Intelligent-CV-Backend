@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+      <%= resume.personal.firstName %> <%= resume.personal.lastName %> - Resume
+    </title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        font-family: "Poppins", sans-serif;
+        background: #f5f7fa;
+        color: #222;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        margin: 0;
+        padding: 0;
+      }
+
+      .resume {
+        background: #fff;
+        width: 210mm;
+        min-height: 297mm;
+        display: grid;
+        grid-template-columns: 35% 65%;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        overflow: hidden;
+        padding: 10mm;
+      }
+
+      .left-panel {
+        background: #1e3a8a;
+        color: #fff;
+        padding: 30px 25px;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .right-panel {
+        padding: 30px 40px;
+      }
+
+      .profile-pic {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        background: #fff;
+        margin: 0 auto 20px;
+        overflow: hidden;
+      }
+
+      .profile-pic img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .name {
+        text-align: center;
+        font-size: 24px;
+        font-weight: 700;
+        margin-top: 10px;
+      }
+
+      .role {
+        text-align: center;
+        font-size: 14px;
+        font-weight: 400;
+        color: #d1d5db;
+        margin-bottom: 25px;
+      }
+
+      .left-section {
+        margin-bottom: 30px;
+      }
+
+      .left-section h3 {
+        text-transform: uppercase;
+        font-size: 14px;
+        letter-spacing: 1px;
+        margin-bottom: 10px;
+        color: #bfdbfe;
+      }
+
+      .left-section p,
+      .left-section li {
+        font-size: 13px;
+        line-height: 1.6;
+        margin: 4px 0;
+      }
+
+      .left-section ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      .right-panel section {
+        margin-bottom: 30px;
+      }
+
+      .right-panel h2 {
+        color: #1e3a8a;
+        border-bottom: 2px solid #1e3a8a;
+        font-size: 18px;
+        padding-bottom: 4px;
+        margin-bottom: 12px;
+        text-transform: uppercase;
+      }
+
+      .right-panel p,
+      .right-panel li {
+        font-size: 14px;
+        color: #333;
+        line-height: 1.7;
+      }
+
+      .right-panel ul {
+        list-style: disc;
+        margin-left: 20px;
+      }
+
+      .job {
+        margin-bottom: 20px;
+      }
+
+      .job h4 {
+        margin: 0;
+        font-size: 16px;
+        font-weight: 600;
+        color: #1e3a8a;
+      }
+
+      .job span {
+        font-size: 13px;
+        color: #555;
+      }
+
+      .responsibilities {
+        margin-top: 6px;
+      }
+
+      .responsibilities li {
+        margin-bottom: 5px;
+      }
+
+      .reference-item {
+        margin-bottom: 12px;
+      }
+
+      .reference-item span {
+        display: block;
+        font-size: 13px;
+        color: #555;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="resume">
+      <!-- LEFT PANEL -->
+      <aside class="left-panel">
+        <div class="name">
+          <%= resume.personal.firstName %> <%= resume.personal.lastName %>
+        </div>
+        <div class="role"><%= resume.personal.title %></div>
+
+        <!-- Contact -->
+        <div class="left-section">
+          <h3>Contact</h3>
+          <p>Email: <%= resume.personal.email %></p>
+          <p>Phone: <%= resume.personal.phone %></p>
+          <p>
+            Address: <%= resume.personal.city %>, <%= resume.personal.state %>
+            <%= resume.personal.postalCode %>
+          </p>
+          <p><%= resume.personal.country %></p>
+        </div>
+
+        <!-- Skills -->
+        <% if (resume.skills && resume.skills.length) { %>
+        <div class="left-section">
+          <h3>Skills</h3>
+          <ul>
+            <% resume.skills.forEach(function(skill){ %>
+            <li><%= skill %></li>
+            <% }); %>
+          </ul>
+        </div>
+        <% } %>
+
+        <!-- Certifications -->
+        <% if (resume.certifications && resume.certifications.length) { %>
+        <div class="left-section">
+          <h3>Certifications</h3>
+          <ul>
+            <% resume.certifications.forEach(function(cert){ %>
+            <li><%= cert %></li>
+            <% }); %>
+          </ul>
+        </div>
+        <% } %>
+      </aside>
+
+      <!-- RIGHT PANEL -->
+      <main class="right-panel">
+        <!-- Summary -->
+        <section class="summary">
+          <h2>Professional Summary</h2>
+          <p><%= resume.personal.summary %></p>
+        </section>
+
+        <!-- Education -->
+        <section class="education">
+          <h2>Education</h2>
+          <% resume.education.forEach(function(edu){ %>
+          <div class="job">
+            <h4><%= edu.degree %> in <%= edu.fieldOfStudy %></h4>
+            <p><%= edu.school %> — <%= edu.location %></p>
+            <% if (!edu.removeGraduationDate) { %>
+            <p><%= edu.graduationMonth %> <%= edu.graduationYear %></p>
+            <% } %>
+          </div>
+          <% }); %>
+        </section>
+
+        <!-- Work Experience -->
+        <section class="experience">
+          <h2>Work Experience</h2>
+          <% resume.experience.forEach(function(job){ %>
+          <div class="job">
+            <h4><%= job.position %> — <%= job.company %></h4>
+            <span
+              ><%= job.startMonth %> <%= job.startYear %> – <% if
+              (job.isCurrentlyWorking) { %>Present<% } else { %><%= job.endMonth
+              %> <%= job.endYear %><% } %>
+            </span>
+            <ul class="responsibilities">
+              <% job.responsibilities.forEach(function(item){ %>
+              <li><%= item %></li>
+              <% }); %>
+            </ul>
+          </div>
+          <% }); %>
+        </section>
+
+        <!-- References -->
+        <section class="references">
+          <h2>References</h2>
+          <% if (resume.references && resume.references.length) { %> <%
+          resume.references.forEach(function(ref){ %>
+          <div class="reference-item">
+            <strong><%= ref.firstName %> <%= ref.lastName %></strong> — <%=
+            ref.jobTitle %>, <%= ref.company %> <% if (ref.email) { %><span
+              >Email: <%= ref.email %></span
+            ><% } %> <% if (ref.phone) { %><span>Phone: <%= ref.phone %></span
+            ><% } %> <% if (ref.relationshipStatus) { %><span
+              >Relationship: <%= ref.relationshipStatus %></span
+            ><% } %>
+          </div>
+          <% }); %> <% } else { %>
+          <p>Available upon request.</p>
+          <% } %>
+        </section>
+      </main>
+    </div>
+  </body>
+</html>

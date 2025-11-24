@@ -4,7 +4,6 @@ import { config } from "dotenv";
 import helmet from "helmet";
 import cookieParser from "cookie-parser";
 import connectDB from "./src/config/db.js";
-import exphbs from "express-handlebars";
 import path from "path";
 import url from "url";
 
@@ -23,9 +22,6 @@ await connectDB();
 
 app.use(cors(corsOptions));
 
-const hbs = exphbs.create({
-  defaultLayout: false,
-});
 const __filename = url.fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -35,9 +31,7 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(rateLimiter())
 
-
-app.engine("hbs", hbs.engine);
-app.set("view engine", "hbs");
+app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "src", "views"));
 // routes
 app.get("/", (req, res) => {

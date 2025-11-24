@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+      <%= resume.personal.firstName %> <%= resume.personal.lastName %> - Resume
+    </title>
+
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Amaranth:wght@400;700&display=swap");
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Amaranth", sans-serif;
+      }
+
+      .resume-container {
+        width: 210mm;
+        background: white;
+        height: 297mm;
+        page-break-inside: avoid;
+        page-break-after: always;
+        page-break-before: always;
+        margin: 0 auto;
+        padding: 10mm;
+      }
+
+      header {
+        text-align: center;
+        border-bottom: 3px solid #3a7258;
+        margin-bottom: 15px;
+        padding-bottom: 8px;
+      }
+
+      header h1 {
+        font-size: 2rem;
+        color: #1a3c2f;
+      }
+
+      header h2 {
+        font-size: 1.05rem;
+        color: #3a7258;
+        margin-top: 4px;
+      }
+
+      .contact {
+        text-align: center;
+        font-size: 0.9rem;
+        color: #444;
+        margin: 10px 0 20px;
+        line-height: 1.4;
+      }
+
+      .contact a {
+        color: #3a7258;
+        text-decoration: none;
+      }
+
+      section {
+        margin-bottom: 30px;
+      }
+
+      section h3 {
+        color: #3a7258;
+        border-bottom: 2px solid #3a7258;
+        padding-bottom: 3px;
+        margin-bottom: 6px;
+        font-size: 1rem;
+        text-transform: uppercase;
+      }
+
+      .summary p,
+      .education p,
+      .certifications ul,
+      .references p {
+        font-size: 0.9rem;
+        line-height: 1.4;
+        margin-bottom: 6px;
+      }
+
+      .skill-tags {
+        list-style: none;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+      }
+
+      .skill-tags li {
+        background: #e6f0ea;
+        color: #1a3c2f;
+        border-radius: 4px;
+        padding: 4px 8px;
+        font-size: 0.85rem;
+        border: 1px solid #3a7258;
+      }
+
+      .exp-item {
+        margin-bottom: 12px;
+      }
+
+      .exp-item h4 {
+        font-size: 1rem;
+        color: #1a3c2f;
+        font-weight: 600;
+      }
+
+      .exp-item p {
+        font-size: 0.9rem;
+        color: #555;
+      }
+
+      .exp-item ul {
+        margin-left: 18px;
+        margin-top: 4px;
+        font-size: 0.85rem;
+        line-height: 1.4;
+      }
+
+      .certifications ul {
+        margin-left: 18px;
+        font-size: 0.9rem;
+      }
+
+      .references {
+        margin-top: 10px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="resume-container">
+      <!-- Header -->
+      <header>
+        <h1>
+          <%= resume.personal.firstName %> <%= resume.personal.lastName %>
+        </h1>
+        <h2><%= resume.personal.title %></h2>
+      </header>
+
+      <!-- Contact Info -->
+      <section class="contact">
+        <p><%= resume.personal.phone %></p>
+        <p>
+          <%= resume.personal.city %>, <%= resume.personal.state %> <%=
+          resume.personal.postalCode %>
+        </p>
+        <p><%= resume.personal.country %></p>
+        <p>
+          <a href="mailto:<%= resume.personal.email %>"
+            ><%= resume.personal.email %></a
+          >
+        </p>
+      </section>
+
+      <!-- Summary -->
+      <section class="summary">
+        <h3>Professional Summary</h3>
+        <p><%= resume.personal.summary %></p>
+      </section>
+
+      <!-- Education -->
+      <section class="education">
+        <h3>Education</h3>
+
+        <% resume.education.forEach(function(edu){ %>
+        <div class="edu-item">
+          <h4><%= edu.degree %> in <%= edu.fieldOfStudy %></h4>
+          <p><%= edu.school %> — <%= edu.location %></p>
+
+          <% if (!edu.removeGraduationDate) { %>
+          <p><%= edu.graduationMonth %> <%= edu.graduationYear %></p>
+          <% } %>
+        </div>
+        <% }); %>
+      </section>
+
+      <!-- Skills -->
+      <% if (resume.skills && resume.skills.length) { %>
+      <section class="skills">
+        <h3>Key Skills</h3>
+        <ul class="skill-tags">
+          <% resume.skills.forEach(function(skill){ %>
+          <li><%= skill %></li>
+          <% }); %>
+        </ul>
+      </section>
+      <% } %>
+
+      <!-- Certifications -->
+      <% if (resume.certifications && resume.certifications.length) { %>
+      <section class="certifications">
+        <h3>Certifications</h3>
+        <ul>
+          <% resume.certifications.forEach(function(cert){ %>
+          <li><%= cert %></li>
+          <% }); %>
+        </ul>
+      </section>
+      <% } %>
+
+      <!-- Experience -->
+      <section class="experience">
+        <h3>Professional Experience</h3>
+
+        <% resume.experience.forEach(function(job){ %>
+        <div class="exp-item">
+          <h4><%= job.position %></h4>
+          <p>
+            <strong><%= job.company %></strong> — <%= job.city %>, <%=
+            job.province %>, <%= job.country %>
+          </p>
+
+          <p>
+            <%= job.startMonth %> <%= job.startYear %> – <% if
+            (job.isCurrentlyWorking) { %> Present <% } else { %> <%=
+            job.endMonth %> <%= job.endYear %> <% } %>
+          </p>
+
+          <ul>
+            <% job.responsibilities.forEach(function(item){ %>
+            <li><%= item %></li>
+            <% }); %>
+          </ul>
+        </div>
+        <% }); %>
+      </section>
+
+      <!-- References -->
+      <section class="references">
+        <h3>References</h3>
+
+        <% if (resume.references && resume.references.length) { %> <%
+        resume.references.forEach(function(ref){ %>
+        <p>
+          <strong><%= ref.firstName %> <%= ref.lastName %></strong> — <%=
+          ref.jobTitle %>, <%= ref.company %>
+        </p>
+
+        <% if (ref.email) { %>
+        <p>Email: <%= ref.email %></p>
+        <% } %> <% if (ref.phone) { %>
+        <p>Phone: <%= ref.phone %></p>
+        <% } %> <% if (ref.relationshipStatus) { %>
+        <p>Relationship: <%= ref.relationshipStatus %></p>
+        <% } %> <% }); %> <% } else { %>
+        <p>Available upon request.</p>
+        <% } %>
+      </section>
+    </div>
+  </body>
+</html>
