@@ -14,6 +14,8 @@ const resumeSchema = new mongoose.Schema(
       required: true,
     },
 
+    name: { type: String, required: true, default: "Untitled Resume" },
+
     personal: {
       firstName: { type: String, required: true },
       lastName: { type: String, required: true },
@@ -36,8 +38,7 @@ const resumeSchema = new mongoose.Schema(
         graduationMonth: String,
         graduationYear: String,
         removeGraudationDate: Boolean,
-        state: String,
-        country: String,
+        location: String,
       },
     ],
 

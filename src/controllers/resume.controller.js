@@ -6,13 +6,19 @@ import * as pdf from "html-pdf-node";
 export async function createResume(req, res) {
   const body = req.body;
   const id = req.user.id;
-  const newResume = new Resume({
-    ...body,
-    userId: id,
-  });
+  try {
+    const newResume = new Resume({
+      ...body,
+      name: `${body.personal.title} Resume`,
+      userId: id,
+    });
 
-  await newResume.save();
-  res.status(201).json({ message: `Resume created`, success: true });
+    await newResume.save();
+    res.status(201).json({ message: `Resume saved successfully`, success: true });
+  } catch (e) {
+    res.status(500).json({ error: `Error saving resume ${e}`, success: false });
+  }
+
 }
 
 export async function getResumes(req, res) {

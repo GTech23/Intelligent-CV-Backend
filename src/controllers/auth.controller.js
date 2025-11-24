@@ -4,16 +4,16 @@ import User from "../models/User.js";
 import userSchema from "../validation/user-validator.js";
 
 export async function register(req, res) {
-  const {error, value} = userSchema.validate(req.body, {abortEarly: true});
+  const { error, value } = userSchema.validate(req.body, { abortEarly: true });
 
   if (error) {
-      return res.status(400).json({
-        success: false,
-        message: error.details.map(d => d.message),
-      });
-    }
+    return res.status(400).json({
+      success: false,
+      message: error.details.map(d => d.message),
+    });
+  }
 
-    const {username, email, password} = value;
+  const { username, email, password } = value;
 
   try {
     const hash = await bcrypt.hash(password, 10);
@@ -22,7 +22,7 @@ export async function register(req, res) {
     res.status(201).json({ success: true, message: `User created successfully` });
   } catch (err) {
     console.error(err.message);
-    if(err.code === 11000){
+    if (err.code === 11000) {
       const field = Object.keys(err.keyValue)[0];
       return res.status(400).json({
         success: false,
@@ -61,15 +61,13 @@ export async function login(req, res) {
 
 export async function getAuthProfile(req, res) {
   const user = req.user;
-  console.log(user);
   res.status(200).json({ data: user });
 }
 
-export async function requestPasswordReset(req, res){
+export async function requestPasswordReset(req, res) {
   const { email } = req.body;
   const user = await User.findOne({ email });
-  console.log(user);
-  if(!user){
+  if (!user) {
     return res.status(404).json({ success: false, message: `You will receive an OTP to this email ${email} if the user exist` });
   }
 
@@ -81,19 +79,19 @@ export async function requestPasswordReset(req, res){
   res.status(200).json({ success: true, message: `You will receive an OTP to this email ${email} if the user exist` });
 }
 
-export async function verifyOtp(req, res){
+export async function verifyOtp(req, res) {
   const { email, otp, newPassword } = req.body;
   const user = await User.findOne({ email });
-  console.log(user.otp)
-  if(!user){
+
+  if (!user) {
     return res.status(404).json({ success: false, message: `User not found` });
   }
-  if(user.otp !== otp || Date.now() > user.otpExpiry){
+  if (user.otp !== otp || Date.now() > user.otpExpiry) {
     return res.status(400).json({ success: false, message: `Invalid or expired OTP` });
   }
 
   const matchedPassword = bcrypt.compare(newPassword, user.password);
-  if(matchedPassword){
+  if (matchedPassword) {
     return res.status(400).json({ success: false, message: `New password must be different from the old password` });
   }
 

@@ -10,6 +10,7 @@ const userSchema = new mongoose.Schema(
     isPremium: { type: Boolean, default: false },
     otp: { type: String },
     otpExpiry: { type: Date },
+    isEmailVerified: { type: Boolean, default: false },
   },
   { timestamps: true }
 );

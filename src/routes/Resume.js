@@ -12,7 +12,6 @@ import {
 const resumeRouter = Router();
 
 // '/api/resume
-
 resumeRouter.post("/", authorizeAuth, createResume);
 resumeRouter.get("/", authorizeAuth, getResumes);
 resumeRouter.get("/:id", authorizeAuth, getResume);
