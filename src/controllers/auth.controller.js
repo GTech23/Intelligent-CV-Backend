@@ -23,7 +23,6 @@ export async function register(req, res) {
       .status(201)
       .json({ success: true, message: `User created successfully` });
   } catch (err) {
-    console.error(err.message);
     if (err.code === 11000) {
       const field = Object.keys(err.keyValue)[0];
       return res.status(400).json({
@@ -62,7 +61,6 @@ export async function login(req, res) {
 
     res.status(200).json({ success: true, message: `Login successful`, token });
   } catch (error) {
-    console.error(error.message);
     res.status(500).json({
       success: false,
       error: `Something went wrong - ${error.message}`,

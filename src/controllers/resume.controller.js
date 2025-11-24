@@ -154,18 +154,19 @@ export async function downloadResume(req, res) {
     const response = await fetch("https://api.pdfshift.io/v3/convert/pdf", {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
         "X-API-Key": process.env.PDFSHIFT_API_KEY,
       },
       body: JSON.stringify({
-        body: htmlContent,
+        source: htmlContent,
+        filename: `${req.user.username} Resume.pdf`,
       }),
     });
 
-    const pdfBuffer = await response.arrayBuffer();
-    console.log(htmlContent);
+    const pdfData = await response.json();
+
+    console.log(pdfData);
     res.setHeader("Content-Type", "application/pdf");
-    res.send(pdfBuffer);
+    res.send(pdfData);
   } catch (error) {
     res.status(500).json({
       error: `Error Downloading resume, ${error.message}`,

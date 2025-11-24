@@ -9,13 +9,12 @@ export default function authorizeAuth(req, res, next) {
   if (!tokenHeader.includes("Bearer "))
     return res
       .status(400)
-      .json({ message: `Indicate Bearer when sending token` });
+      .json({ message: `Please Indicate Bearer when sending token` });
   const token = tokenHeader.split(" ")[1];
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     req.user = decoded;
-    console.log(decoded);
     next();
   } catch (error) {
     res.status(400).json({ error, success: false });
