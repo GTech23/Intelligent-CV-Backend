@@ -9,7 +9,7 @@ export async function register(req, res) {
   if (error) {
     return res.status(400).json({
       success: false,
-      message: error.details.map(d => d.message),
+      message: error.details.map((d) => d.message),
     });
   }
 
@@ -19,15 +19,17 @@ export async function register(req, res) {
     const hash = await bcrypt.hash(password, 10);
     const newUser = new User({ username, email, password: hash });
     await newUser.save();
-    res.status(201).json({ success: true, message: `User created successfully` });
+    res
+      .status(201)
+      .json({ success: true, message: `User created successfully` });
   } catch (err) {
     console.error(err.message);
     if (err.code === 11000) {
       const field = Object.keys(err.keyValue)[0];
       return res.status(400).json({
         success: false,
-        message: `${field} already exist`
-      })
+        message: `${field} already exist`,
+      });
     }
     res.status(500).json({ error: `Something went wrong - ${err.message}` });
   }
@@ -39,10 +41,19 @@ export async function login(req, res) {
     const user = await User.findOne({ email });
     const isPasswordMatch = bcrypt.compareSync(password, user?.password || "");
     if (!user || !isPasswordMatch)
-      return res.status(400).json({ success: false, message: `Invalid credentials` });
+      return res
+        .status(400)
+        .json({ success: false, message: `Invalid credentials` });
 
     const token = jwt.sign(
-      { id: user._id, email: user.email, role: user.role, username: user.username },
+      {
+        id: user._id,
+        email: user.email,
+        role: user.role,
+        username: user.username,
+        currentPlan: user.subscriptionPlan,
+        isEmailVerified: user.isEmailVerified,
+      },
       process.env.JWT_SECRET,
       {
         expiresIn: "2h",
@@ -68,7 +79,10 @@ export async function requestPasswordReset(req, res) {
   const { email } = req.body;
   const user = await User.findOne({ email });
   if (!user) {
-    return res.status(404).json({ success: false, message: `You will receive an OTP to this email ${email} if the user exist` });
+    return res.status(404).json({
+      success: false,
+      message: `You will receive an OTP to this email ${email} if the user exist`,
+    });
   }
 
   // generate OTP
@@ -76,7 +90,10 @@ export async function requestPasswordReset(req, res) {
   user.otp = otp;
   user.otpExpiry = Date.now() + 15 * 60 * 1000;
   await user.save();
-  res.status(200).json({ success: true, message: `You will receive an OTP to this email ${email} if the user exist` });
+  res.status(200).json({
+    success: true,
+    message: `You will receive an OTP to this email ${email} if the user exist`,
+  });
 }
 
 export async function verifyOtp(req, res) {
@@ -87,12 +104,17 @@ export async function verifyOtp(req, res) {
     return res.status(404).json({ success: false, message: `User not found` });
   }
   if (user.otp !== otp || Date.now() > user.otpExpiry) {
-    return res.status(400).json({ success: false, message: `Invalid or expired OTP` });
+    return res
+      .status(400)
+      .json({ success: false, message: `Invalid or expired OTP` });
   }
 
   const matchedPassword = bcrypt.compare(newPassword, user.password);
   if (matchedPassword) {
-    return res.status(400).json({ success: false, message: `New password must be different from the old password` });
+    return res.status(400).json({
+      success: false,
+      message: `New password must be different from the old password`,
+    });
   }
 
   const hash = await bcrypt.hash(newPassword, 10);
