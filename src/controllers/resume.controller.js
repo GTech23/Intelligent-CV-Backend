@@ -26,7 +26,7 @@ export async function getResumes(req, res) {
   try {
     const resumes = await Resume.find({ userId });
 
-    if (!resumes || resumes.length === 0)
+    if (!resumes || resumes.length < 0)
       return res
         .status(404)
         .json({ success: false, message: `No Resumes found for this user` });
