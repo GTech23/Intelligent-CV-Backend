@@ -63,7 +63,7 @@ export async function updateResume(req, res) {
   try {
     const resume = await Resume.findOneAndUpdate(
       { _id: paramId, userId },
-      { ...body },
+      { ...body, name: `${body.personal.title} Resume` },
       { new: true, runValidators: true }
     );
 
