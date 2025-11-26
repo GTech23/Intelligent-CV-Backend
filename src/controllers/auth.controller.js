@@ -122,3 +122,31 @@ export async function verifyOtp(req, res) {
   await user.save();
   res.status(200).json({ success: true, message: `Password reset successful` });
 }
+
+export async function updatePassword(req, res) {
+  const { oldPassword, newPassword } = req.body;
+  const user = await User.findOne({ _id: req.user.id });
+
+  if (!oldPassword || !newPassword) {
+    return res
+      .status(400)
+      .json({ success: false, message: "Old and new password are required" });
+  }
+
+  const matchedPassword = bcrypt.compareSync(oldPassword, user.password);
+  if (!matchedPassword) {
+    return res
+      .status(400)
+      .json({ success: false, message: "Invalid password" });
+  }
+
+  // Hash new password
+  const hash = await bcrypt.hash(newPassword, 10);
+  user.password = hash;
+  await user.save();
+
+  res.status(200).json({
+    success: true,
+    message: "Password updated successfully",
+  });
+}
