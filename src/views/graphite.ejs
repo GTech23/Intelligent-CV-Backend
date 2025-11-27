@@ -20,7 +20,7 @@
       .resume-container {
         width: 210mm;
         background: white;
-        height: 297mm;
+        height: auto;
         page-break-inside: avoid;
         margin: 0 auto;
         padding: 10mm;
@@ -70,15 +70,6 @@
         text-transform: uppercase;
       }
 
-      .summary p,
-      .education p,
-      .certifications ul,
-      .references p {
-        font-size: 0.9rem;
-        line-height: 1.4;
-        margin-bottom: 6px;
-      }
-
       .skill-tags {
         list-style: none;
         display: flex;
@@ -105,7 +96,8 @@
         font-weight: 600;
       }
 
-      .exp-item p {
+      .exp-item p,
+      .education p {
         font-size: 0.9rem;
         color: #555;
       }
@@ -120,10 +112,6 @@
       .certifications ul {
         margin-left: 18px;
         font-size: 0.9rem;
-      }
-
-      .references {
-        margin-top: 10px;
       }
     </style>
   </head>
@@ -140,26 +128,36 @@
 
       <!-- Contact Info -->
       <section class="contact">
+        <% if (resume.personal.phone) { %>
         <p><%= resume.personal.phone %></p>
+        <% } %> <% if (resume.personal.city || resume.personal.state ||
+        resume.personal.postalCode) { %>
         <p>
           <%= resume.personal.city %>, <%= resume.personal.state %> <%=
           resume.personal.postalCode %>
         </p>
+        <% } %> <% if (resume.personal.country) { %>
         <p><%= resume.personal.country %></p>
+        <% } %> <% if (resume.personal.email) { %>
         <p>
           <a href="mailto:<%= resume.personal.email %>"
             ><%= resume.personal.email %></a
           >
         </p>
+        <% } %>
       </section>
 
       <!-- Summary -->
+      <% if (resume.personal.summary && resume.personal.summary.trim() !== "") {
+      %>
       <section class="summary">
         <h3>Professional Summary</h3>
         <p><%= resume.personal.summary %></p>
       </section>
+      <% } %>
 
       <!-- Education -->
+      <% if (resume.education && resume.education.length) { %>
       <section class="education">
         <h3>Education</h3>
 
@@ -174,6 +172,7 @@
         </div>
         <% }); %>
       </section>
+      <% } %>
 
       <!-- Skills -->
       <% if (resume.skills && resume.skills.length) { %>
@@ -200,6 +199,7 @@
       <% } %>
 
       <!-- Experience -->
+      <% if (resume.experience && resume.experience.length) { %>
       <section class="experience">
         <h3>Professional Experience</h3>
 
@@ -225,13 +225,14 @@
         </div>
         <% }); %>
       </section>
+      <% } %>
 
       <!-- References -->
+      <% if (resume.references && resume.references.length) { %>
       <section class="references">
         <h3>References</h3>
 
-        <% if (resume.references && resume.references.length) { %> <%
-        resume.references.forEach(function(ref){ %>
+        <% resume.references.forEach(function(ref){ %>
         <p>
           <strong><%= ref.firstName %> <%= ref.lastName %></strong> — <%=
           ref.jobTitle %>, <%= ref.company %>
@@ -243,10 +244,9 @@
         <p>Phone: <%= ref.phone %></p>
         <% } %> <% if (ref.relationshipStatus) { %>
         <p>Relationship: <%= ref.relationshipStatus %></p>
-        <% } %> <% }); %> <% } else { %>
-        <p>Available upon request.</p>
-        <% } %>
+        <% } %> <% }); %>
       </section>
+      <% } %>
     </div>
   </body>
 </html>

@@ -6,6 +6,7 @@
       <%= resume.personal.firstName %> <%= resume.personal.lastName %> - <%=
       resume.personal.title %>
     </title>
+
     <style>
       @import url("https://fonts.googleapis.com/css2?family=Cambo&display=swap");
 
@@ -138,10 +139,16 @@
           <p><%= resume.personal.title %></p>
         </div>
       </section>
+
+      <!-- Contact -->
       <section>
         <div class="social-link-container">
-          <p><%= resume.personal.phone %></p>
-          <p><%= resume.personal.email %></p>
+          <a href="tel:<%= resume.personal.phone %>" target="_blank">
+            <%= resume.personal.phone %>
+          </a>
+          <a href="mailto:<%= resume.personal.email %>" target="_blank">
+            <%= resume.personal.email %>
+          </a>
           <p>
             <%= resume.personal.city %>, <%= resume.personal.state %>, <%=
             resume.personal.country %>
@@ -151,18 +158,22 @@
       </section>
 
       <!-- Summary -->
+      <% if (resume.personal.summary && resume.personal.summary.trim() !== "") {
+      %>
       <section>
         <p class="summary"><%= resume.personal.summary %></p>
       </section>
+      <% } %>
 
       <!-- Experience -->
+      <% if (resume.experience && resume.experience.length > 0) { %>
       <section id="experience">
         <div class="section-header">
           <h2 class="section-title">PROFESSIONAL EXPERIENCE</h2>
           <div class="ruler"></div>
         </div>
 
-        <% resume.experience.forEach(exp=> { %>
+        <% resume.experience.forEach(exp => { %>
         <div class="experience-container">
           <div class="experience-header">
             <div>
@@ -180,34 +191,40 @@
               </p>
             </div>
           </div>
+
+          <% if (exp.responsibilities && exp.responsibilities.length > 0) { %>
           <div class="duties">
             <ul>
-              <% exp.responsibilities.forEach(item=> { %>
+              <% exp.responsibilities.forEach(item => { %>
               <li><%= item %></li>
               <% }) %>
             </ul>
           </div>
+          <% } %>
         </div>
         <% }) %>
       </section>
+      <% } %>
 
       <!-- Education -->
+      <% if (resume.education && resume.education.length > 0) { %>
       <section id="education">
         <div class="section-header">
           <h2 class="section-title">EDUCATION</h2>
           <div class="ruler"></div>
         </div>
 
-        <% resume.education.forEach(edu=> { %>
+        <% resume.education.forEach(edu => { %>
         <div class="education-container">
           <div>
             <h3 class="company">
               <%= edu.degree %> in <%= edu.fieldOfStudy %>
             </h3>
             <p>
-              <%= edu.school %>, <span class="bold"> <%= edu.location %> </span>
+              <%= edu.school %>, <span class="bold"><%= edu.location %></span>
             </p>
           </div>
+
           <% if (!edu.removeGraduationDate) { %>
           <p style="text-align: right" class="title">
             <%= edu.graduationMonth %> <%= edu.graduationYear %>
@@ -216,56 +233,63 @@
         </div>
         <% }) %>
       </section>
+      <% } %>
 
       <!-- Skills -->
+      <% if (resume.skills && resume.skills.length > 0) { %>
       <section id="skills">
         <div class="section-header">
           <h2 class="section-title">SKILLS</h2>
           <div class="ruler"></div>
         </div>
+
         <div class="skill-container">
           <ul>
-            <% resume.skills.forEach(skill=> { %>
+            <% resume.skills.forEach(skill => { %>
             <li><%= skill %></li>
             <% }) %>
           </ul>
         </div>
       </section>
+      <% } %>
 
       <!-- Certifications -->
+      <% if (resume.certifications && resume.certifications.length > 0) { %>
       <section id="certification">
         <div class="section-header">
           <h2 class="section-title">CERTIFICATIONS</h2>
           <div class="ruler"></div>
         </div>
+
         <div class="skill-container">
           <ul>
-            <% resume.certifications.forEach(cert=> { %>
+            <% resume.certifications.forEach(cert => { %>
             <li><%= cert %></li>
             <% }) %>
           </ul>
         </div>
       </section>
+      <% } %>
 
       <!-- References -->
+      <% if (resume.references && resume.references.length > 0) { %>
       <section id="references">
         <div class="section-header">
           <h2 class="section-title">REFERENCES</h2>
           <div class="ruler"></div>
         </div>
+
         <div class="skill-container">
-          <% if (resume.references && resume.references.length> 0) { %> <%
-          resume.references.forEach(ref=> { %>
+          <% resume.references.forEach(ref => { %>
           <li>
             <%= ref.firstName %> <%= ref.lastName %> - <%= ref.jobTitle %>, <%=
             ref.company %>. Email: <%= ref.email %>, Phone: <%= ref.phone %>
             (<%= ref.relationshipStatus %>)
           </li>
-          <% }) %> <% } else { %>
-          <li>Available upon request</li>
-          <% } %>
+          <% }) %>
         </div>
       </section>
+      <% } %>
     </div>
   </body>
 </html>
