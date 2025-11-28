@@ -22,7 +22,7 @@ export async function register(req, res) {
     await newUser.save();
 
     axios.post(
-      "https://intelligent-cv-backend-sz38.vercel.app/api/send-welcome-email",
+      "https://intelligent-cv-backend.vercel.app/api/send-welcome-email",
       {
         email,
         username,
