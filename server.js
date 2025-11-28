@@ -16,7 +16,7 @@ import resumeRouter from "./src/routes/Resume.js";
 import templateRouter from "./src/routes/Templates.js";
 import corsOptions from "./src/config/corsConfig.js";
 import aiRouter from "./src/routes/Gemini.js";
-import rateLimiter from "./src/middlewares/rateLimiter.js";
+import rateLimiter, { downloadLimiter } from "./src/middlewares/rateLimiter.js";
 const app = express();
 await connectDB();
 
@@ -29,7 +29,8 @@ const __dirname = path.dirname(__filename);
 app.use(helmet());
 app.use(cookieParser());
 app.use(express.json());
-app.use(rateLimiter())
+app.use(rateLimiter());
+app.use(downloadLimiter());
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "src", "views"));
@@ -48,8 +49,6 @@ app.use((err, req, res, next) => {
   next(err);
 });
 
-
 app.listen(PORT, () => {
   console.log(`Server connected to ${process.env.BASE_URL}:${PORT}`);
-
 });

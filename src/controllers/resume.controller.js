@@ -171,8 +171,6 @@ export async function downloadResume(req, res) {
     });
 
     const pdfData = await response.json();
-
-    console.log(pdfData);
     res.setHeader("Content-Type", "application/pdf");
     res.send(pdfData);
   } catch (error) {
