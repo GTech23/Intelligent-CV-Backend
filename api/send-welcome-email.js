@@ -12,19 +12,19 @@ export default async function handler(req, res) {
       subject: "Welcome to Intelligent CV!",
       html: `
         <div style="max-width: 600px; margin: 0 auto; padding: 20px;">
-  <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; border: 1px solid #ddd; padding: 20px; border-radius: 8px;">
-    <h2 style="color: #EA723C;">Welcome to Intelligent CV, ${username}!</h2>
-    <p>Thank you for joining Intelligent CV. We're thrilled to have you as part of our community!</p>
-    <p>Our platform is designed to help you create professional and impactful CVs with ease. Get started by exploring our templates and features.</p>
-    <p style="margin-top: 20px;">
-      <a href="https://intelligent-cv.vercel.app/dashboard" style="display: inline-block; padding: 10px 20px; background-color: #EA723C; color: #ffffff; text-decoration: none; border-radius: 5px;">
-        Get Started Now
-      </a>
-    </p>
-    <p>If you have any questions, feel free to reach out to our support team.</p>
-    <p>Best regards,<br>The <span style="color: #EA723C;">IntelligentCV</span> Team</p>
-  </div>
-</div>
+            <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; border: 1px solid #ddd; padding: 20px; border-radius: 8px;">
+                <h2 style="color: #EA723C;">Welcome to Intelligent CV, ${username}!</h2>
+                <p>Thank you for joining Intelligent CV. We're thrilled to have you as part of our community!</p>
+                <p>Our platform is designed to help you create professional and impactful CVs with ease. Get started by exploring our templates and features.</p>
+                <p style="margin-top: 20px;">
+                <a href="https://intelligent-cv.vercel.app/dashboard" style="display: inline-block; padding: 10px 20px; background-color: #EA723C; color: #ffffff; text-decoration: none; border-radius: 5px;">
+                    Get Started Now
+                </a>
+                </p>
+                <p>If you have any questions, feel free to reach out to our support team.</p>
+                <p>Best regards,<br>The <span style="color: #EA723C;">IntelligentCV</span> Team</p>
+            </div>
+        </div>
       `,
     });
 
