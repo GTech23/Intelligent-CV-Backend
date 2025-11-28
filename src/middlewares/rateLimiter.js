@@ -10,13 +10,15 @@ const rateLimiter = () => {
   });
 };
 
-export const downloadLimiter = () => {
-  return rateLimit({
-    windowMs: 24 * 60 * 60 * 1000,
-    max: 3,
-    legacyHeaders: false,
-    standardHeaders: true,
-    message: `You can only download a resume 3 times per day. Please try again tomorrow.`,
-  });
-};
+export const downloadLimiter = rateLimit({
+  windowMs: 24 * 60 * 60 * 1000,
+  max: 2,
+  message: {
+    success: false,
+    message:
+      "You can only download a resume 2 times per day. Please try again tomorrow.  ",
+  },
+  standardHeaders: true,
+  legacyHeaders: false,
+});
 export default rateLimiter;

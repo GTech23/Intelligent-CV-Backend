@@ -9,7 +9,7 @@ import {
   updateResume,
   downloadResume,
 } from "../controllers/resume.controller.js";
-
+import { downloadLimiter } from "../middlewares/rateLimiter.js";
 const resumeRouter = Router();
 
 // '/api/resume
@@ -20,6 +20,11 @@ resumeRouter.put("/:id", authorizeAuth, updateResume);
 resumeRouter.delete("/:id", authorizeAuth, deleteResume);
 
 resumeRouter.post("/:id/view", renderResume);
-resumeRouter.post("/:id/download", authorizeAuth, downloadResume);
+resumeRouter.post(
+  "/:id/download",
+  authorizeAuth,
+  downloadLimiter,
+  downloadResume
+);
 
 export default resumeRouter;
