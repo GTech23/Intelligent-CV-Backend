@@ -21,7 +21,7 @@ export async function register(req, res) {
     const newUser = new User({ username, email, password: hash });
     await newUser.save();
 
-    axios.post(
+    await axios.post(
       "https://intelligent-cv-backend.vercel.app/api/send-welcome-email",
       {
         email,
