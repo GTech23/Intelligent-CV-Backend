@@ -21,10 +21,13 @@ export async function register(req, res) {
     const newUser = new User({ username, email, password: hash });
     await newUser.save();
 
-    axios.post("http://localhost:8000/api/send-welcome-email", {
-      email,
-      username,
-    });
+    axios.post(
+      "https://intelligent-cv-backend-sz38.vercel.app/api/send-welcome-email",
+      {
+        email,
+        username,
+      }
+    );
 
     res
       .status(201)
