@@ -2,9 +2,10 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import User from "../models/User.js";
 import userSchema from "../validation/user-validator.js";
+import axios from "axios";
 
 export async function register(req, res) {
-  const { error, value } = userSchema.validate(req.body, { abortEarly: true });
+  const { error, value } = userSchema.validate(req.body, { abortEarly: false });
 
   if (error) {
     return res.status(400).json({
@@ -19,6 +20,12 @@ export async function register(req, res) {
     const hash = await bcrypt.hash(password, 10);
     const newUser = new User({ username, email, password: hash });
     await newUser.save();
+
+    axios.post("http://localhost:8000/api/send-welcome-email", {
+      email,
+      username,
+    });
+
     res
       .status(201)
       .json({ success: true, message: `User created successfully` });
