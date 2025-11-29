@@ -3,6 +3,7 @@ import jwt from "jsonwebtoken";
 import User from "../models/User.js";
 import userSchema from "../validation/user-validator.js";
 import axios from "axios";
+import crypto from "crypto";
 
 export async function register(req, res) {
   const { error, value } = userSchema.validate(req.body, { abortEarly: false });
@@ -106,7 +107,7 @@ export async function requestPasswordReset(req, res) {
 }
 
 export async function verifyOtp(req, res) {
-  const { email, otp, newPassword } = req.body;
+  const { email, otp } = req.body;
   const user = await User.findOne({ email });
 
   if (!user) {
@@ -118,20 +119,44 @@ export async function verifyOtp(req, res) {
       .json({ success: false, message: `Invalid or expired OTP` });
   }
 
-  const matchedPassword = await bcrypt.compare(newPassword, user.password);
-  if (matchedPassword) {
-    return res.status(400).json({
-      success: false,
-      message: `New password must be different from the old password`,
-    });
+  const resetToken = crypto.randomBytes(32).toString("hex");
+  const resetTokenExpiry = Date.now() + 10 * 60 * 1000;
+  user.resetToken = resetToken;
+  user.resetTokenExpiry = resetTokenExpiry;
+
+  user.otp = null;
+  user.otpExpiry = null;
+  await user.save();
+  res.status(200).json({
+    success: true,
+    data: { resetToken, resetTokenExpiry },
+    message: `OTP verified successfully`,
+  });
+}
+
+export async function resetPasword(req, res) {
+  const { resetToken, newPassword } = req.body;
+  const user = await User.findOne({ resetToken });
+
+  if (!user) {
+    return res.status(404).json({ success: false, message: `User not found` });
+  }
+
+  if (Date.now() > user.resetTokenExpiry) {
+    return res
+      .status(400)
+      .json({ success: false, message: `Invalid or expired reset token` });
   }
 
   const hash = await bcrypt.hash(newPassword, 10);
   user.password = hash;
-  user.otp = null;
-  user.otpExpiry = null;
+  user.resetToken = null;
+  user.resetTokenExpiry = null;
   await user.save();
-  res.status(200).json({ success: true, message: `Password reset successful` });
+  res.status(200).json({
+    success: true,
+    message: `Password reset successfully`,
+  });
 }
 
 export async function updatePassword(req, res) {
