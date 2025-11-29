@@ -17,10 +17,12 @@ import templateRouter from "./src/routes/Templates.js";
 import corsOptions from "./src/config/corsConfig.js";
 import aiRouter from "./src/routes/Gemini.js";
 import rateLimiter, { downloadLimiter } from "./src/middlewares/rateLimiter.js";
+import errorHandler from "./src/middlewares/errorHandler.js";
 const app = express();
 await connectDB();
 
 app.use(cors(corsOptions));
+app.use(errorHandler);
 
 const __filename = url.fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -43,9 +45,8 @@ app.use("/api/resume", resumeRouter);
 app.use("/api/template", templateRouter);
 app.use("/api/ai", aiRouter);
 
-app.use((err, req, res, next) => {
-  res.status(500).json({ error: err.message });
-  next(err);
+app.use((req, res) => {
+  res.status(404).json({ success: false, message: "Route not found" });
 });
 
 app.listen(PORT, () => {
