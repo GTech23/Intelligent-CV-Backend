@@ -8,6 +8,7 @@ import {
   updatePassword,
 } from "../controllers/auth.controller.js";
 import authorizeAuth from "../middlewares/authorize.js";
+import { resetPasswordLimiter } from "../middlewares/rateLimiter.js";
 const authRouter = Router();
 
 authRouter.post("/register", register);

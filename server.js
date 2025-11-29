@@ -33,6 +33,7 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(rateLimiter());
 
+app.set("trust proxy", 1);
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "src", "views"));
 // routes

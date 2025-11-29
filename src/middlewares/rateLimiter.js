@@ -21,4 +21,16 @@ export const downloadLimiter = rateLimit({
   standardHeaders: true,
   legacyHeaders: false,
 });
+
+export const resetPasswordLimiter = rateLimit({
+  windowMs: 24 * 60 * 60 * 1000,
+  max: 2,
+  message: {
+    success: false,
+    message:
+      "You can only request password reset 2 times per day. Please try again tomorrow.  ",
+  },
+  standardHeaders: true,
+  legacyHeaders: false,
+});
 export default rateLimiter;

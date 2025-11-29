@@ -53,3 +53,5 @@ cloudinary_uploads/
 # Misc
 *.bak
 *.tmp
+.vercel
+.env*.local

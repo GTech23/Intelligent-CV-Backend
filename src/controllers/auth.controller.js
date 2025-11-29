@@ -85,23 +85,24 @@ export async function getAuthProfile(req, res) {
 
 export async function requestPasswordReset(req, res) {
   const { email } = req.body;
-  const user = await User.findOne({ email });
-  if (!user) {
-    return res.status(404).json({
+
+  try {
+    await axios.post(
+      `${process.env.VERCEL_BACKEND_URL}/api/password-reset-email`,
+      {
+        email,
+      }
+    );
+    return res.status(200).json({
+      success: true,
+      message: `Password reset email sent successfully`,
+    });
+  } catch (e) {
+    return res.status(500).json({
       success: false,
-      message: `You will receive an OTP to this email ${email} if the user exist`,
+      error: `Something went wrong - ${e.message}`,
     });
   }
-
-  // generate OTP
-  const otp = Math.floor(100000 + Math.random() * 900000).toString();
-  user.otp = otp;
-  user.otpExpiry = Date.now() + 15 * 60 * 1000;
-  await user.save();
-  res.status(200).json({
-    success: true,
-    message: `You will receive an OTP to this email ${email} if the user exist`,
-  });
 }
 
 export async function verifyOtp(req, res) {
@@ -117,7 +118,7 @@ export async function verifyOtp(req, res) {
       .json({ success: false, message: `Invalid or expired OTP` });
   }
 
-  const matchedPassword = bcrypt.compare(newPassword, user.password);
+  const matchedPassword = await bcrypt.compare(newPassword, user.password);
   if (matchedPassword) {
     return res.status(400).json({
       success: false,
