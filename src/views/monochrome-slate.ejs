@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap"
+      rel="stylesheet"
+    />
+    <title>
+      <%= resume.personal.firstName %> <%= resume.personal.lastName %> - <%=
+      resume.personal.title %>
+    </title>
+    <style>
+      body {
+        font-family: "Geist", Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background: #ffffff;
+        color: #000;
+        line-height: 1.6;
+      }
+      .container {
+        width: 210mm;
+        max-width: 210mm;
+        min-height: 297mm;
+        margin: 20mm auto;
+        padding: 0 30px;
+      }
+      h1 {
+        font-size: 44px;
+        margin-bottom: 5px;
+        font-weight: bold;
+      }
+      .subtitle {
+        font-size: 20px;
+        font-weight: 500;
+        margin-bottom: 40px;
+      }
+      .contact-grid {
+        display: grid;
+        grid-template-columns: 150px 1fr 150px 1fr;
+        row-gap: 10px;
+        margin-bottom: 50px;
+        font-size: 15px;
+      }
+      .label {
+        font-weight: bold;
+        color: #000;
+      }
+      .section-title {
+        font-size: 20px;
+        font-weight: bold;
+        margin: 40px 0 10px;
+        padding-bottom: 4px;
+        border-bottom: 2px solid #000;
+        text-transform: uppercase;
+      }
+      .profile-text {
+        max-width: 800px;
+        font-size: 15px;
+      }
+      .job-block,
+      .edu-block,
+      .ref-block {
+        margin-bottom: 40px;
+      }
+      .job-dates,
+      .edu-dates {
+        font-size: 14px;
+        color: #444;
+        margin-bottom: 5px;
+      }
+      .job-header,
+      .edu-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .job-title,
+      .edu-school,
+      .ref-name {
+        font-size: 17px;
+        font-weight: bold;
+      }
+      .job-location,
+      .edu-location,
+      .ref-title {
+        font-size: 14px;
+        color: #444;
+        font-weight: 500;
+      }
+      ul {
+        margin-top: 10px;
+        padding-left: 20px;
+      }
+      ul li {
+        margin-bottom: 6px;
+        font-size: 15px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1><%= resume.personal.firstName %> <%= resume.personal.lastName %></h1>
+      <div class="subtitle"><%= resume.personal.title %></div>
+
+      <div class="contact-grid">
+        <% if (resume.personal.country || resume.personal.city ||
+        resume.personal.state || personal.postalCode) { %>
+        <div class="label">Address</div>
+        <div>
+          <%= resume.personal.city %><% if(resume.personal.city &&
+          resume.personal.state) { %>, <% } %><%= resume.personal.state %><br />
+          <%= resume.personal.country %><% if(resume.personal.postalCode){ %> -
+          <%= resume.personal.postalCode %><% } %>
+        </div>
+        <% } %> <% if(resume.personal.phone){ %>
+        <div class="label">Phone</div>
+        <div><%= resume.personal.phone %></div>
+        <% } %> <% if(resume.personal.email){ %>
+        <div class="label">Email</div>
+        <div><%= resume.personal.email %></div>
+        <% } %>
+      </div>
+
+      <% if(resume.personal.summary){ %>
+      <div class="section-title">Profile</div>
+      <p class="profile-text"><%= resume.personal.summary %></p>
+      <% } %> <% if(resume.experience && resume.experience.length){ %>
+      <div class="section-title">Employment History</div>
+      <% resume.experience.forEach(function(job){ %>
+      <div class="job-block">
+        <% if(job.startMonth || job.startYear || job.endMonth || job.endYear){
+        %>
+        <div class="job-dates">
+          <%= job.startMonth %> <%= job.startYear %> — <%
+          if(job.isCurrentlyWorking){ %> Present <% } else { %> <%= job.endMonth
+          %> <%= job.endYear %> <% } %>
+        </div>
+        <% } %>
+        <div class="job-header">
+          <div class="job-title"><%= job.position %> at <%= job.company %></div>
+          <div class="job-location">
+            <%= job.city %>, <%= job.province %>, <%= job.country %>
+          </div>
+        </div>
+        <% if(job.responsibilities && job.responsibilities.length){ %>
+        <ul>
+          <% job.responsibilities.forEach(function(task){ %>
+          <li><%= task %></li>
+          <% }) %>
+        </ul>
+        <% } %>
+      </div>
+      <% }) %> <% } %> <% if(resume.education && resume.education.length){ %>
+      <div class="section-title">Education</div>
+      <% resume.education.forEach(function(edu){ %>
+      <div class="edu-block">
+        <% if(!edu.removeGraduationDate){ %>
+        <div class="edu-dates">
+          <%= edu.graduationMonth %> <%= edu.graduationYear %>
+        </div>
+        <% } %>
+        <div class="edu-header">
+          <div class="edu-school"><%= edu.school %></div>
+          <div class="edu-location"><%= edu.location %></div>
+        </div>
+        <div class="edu-degree">
+          <%= edu.degree %> in <%= edu.fieldOfStudy %>
+        </div>
+      </div>
+      <% }) %> <% } %> <% if(resume.skills && resume.skills.length){ %>
+      <div class="section-title">Skills</div>
+      <ul>
+        <% resume.skills.forEach(function(skill){ %>
+        <li><%= skill %></li>
+        <% }) %>
+      </ul>
+      <% } %> <% if(resume.certifications && resume.certifications.length){ %>
+      <div class="section-title">Certifications</div>
+      <ul>
+        <% resume.certifications.forEach(function(cert){ %>
+        <li><%= cert %></li>
+        <% }) %>
+      </ul>
+      <% } %> <% if(resume.references && resume.references.length){ %>
+      <div class="section-title">References</div>
+      <% resume.references.forEach(function(ref){ %>
+      <div class="ref-block">
+        <div class="ref-name"><%= ref.firstName %> <%= ref.lastName %></div>
+        <div class="ref-title">
+          <%= ref.jobTitle %> at <%= ref.company %> (<%= ref.relationshipStatus
+          %>)
+        </div>
+        <div>Email: <%= ref.email %></div>
+        <div>Phone: <%= ref.phone %></div>
+      </div>
+      <% }) %> <% } else { %>
+      <div class="section-title">References</div>
+      <div class="references-available">
+        References are available upon request.
+      </div>
+      <% } %>
+    </div>
+  </body>
+</html>
